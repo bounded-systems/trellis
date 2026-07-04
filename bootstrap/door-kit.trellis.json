@@ -1,0 +1,19 @@
+{
+  "node": "door-kit",
+  "visibility": "public",
+  "role": "door-client-sdk",
+  "domain": "in-box-clients",
+  "provides": [
+    {
+      "type": "door-kit-mirror",
+      "kind": "vendored-pin",
+      "spec": { "flakeInput": "door-kit" }
+    }
+  ],
+  "consumes": [
+    { "type": "keeper-wire" },
+    { "type": "scout-wire" },
+    { "type": "concierge-wire" },
+    { "type": "guest-room-protocol" }
+  ]
+}

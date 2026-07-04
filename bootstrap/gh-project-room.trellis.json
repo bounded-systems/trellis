@@ -1,0 +1,10 @@
+{
+  "node": "gh-project-room",
+  "visibility": "public",
+  "role": "front-desk-room",
+  "domain": "org-planning",
+  "provides": [],
+  "consumes": [
+    { "type": "front-desk-projects" }
+  ]
+}

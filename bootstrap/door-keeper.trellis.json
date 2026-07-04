@@ -1,0 +1,18 @@
+{
+  "node": "door-keeper",
+  "visibility": "public",
+  "role": "capability-door",
+  "domain": "git-signing",
+  "provides": [
+    {
+      "type": "keeper-wire",
+      "kind": "wire",
+      "spec": { "verbspec": "./specs/keeperd.ts" }
+    }
+  ],
+  "consumes": [
+    { "type": "door-kit-mirror" },
+    { "type": "guest-room-protocol" },
+    { "type": "ocap-provenance-predicate" }
+  ]
+}

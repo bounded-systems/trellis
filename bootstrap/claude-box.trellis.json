@@ -1,0 +1,14 @@
+{
+  "node": "claude-box",
+  "visibility": "public",
+  "role": "guest-sdk-runtime",
+  "domain": "agent-sandbox",
+  "provides": [],
+  "consumes": [
+    { "type": "keeper-wire" },
+    { "type": "scout-wire" },
+    { "type": "concierge-wire" },
+    { "type": "net-egress" },
+    { "type": "ocap-provenance-predicate" }
+  ]
+}
