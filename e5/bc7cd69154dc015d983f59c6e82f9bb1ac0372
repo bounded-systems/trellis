@@ -1,0 +1,25 @@
+deno.json
+  s_70508ca017cb29::t_25220076b863b6 9-10
+  s_70508ca017cb29::t_f0bdf4842a856d 21
+status_test.ts
+  s_70508ca017cb29::t_3600af42e537cf 1-47
+  s_70508ca017cb29::t_32951ea2c3c993 48-51
+status.ts
+  s_70508ca017cb29::t_5205be1cf81618 1-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "e5bc7cd69154dc015d983f59c6e82f9bb1ac0372",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
