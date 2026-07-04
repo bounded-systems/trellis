@@ -1,12 +1,19 @@
 {
   "version": "5",
   "specifiers": {
+    "jsr:@bounded-systems/trellis-kit@0.1": "0.1.0",
     "jsr:@bounded-systems/verbspec@~0.3.1": "0.3.1",
     "jsr:@std/assert@1": "1.0.13",
     "jsr:@std/internal@^1.0.6": "1.0.6",
     "npm:zod@^4.4.3": "4.4.3"
   },
   "jsr": {
+    "@bounded-systems/trellis-kit@0.1.0": {
+      "integrity": "36f32e582f7e50fb17f2d17984300e7baf304852dfa5f81f03366140e2c7bab5",
+      "dependencies": [
+        "npm:zod"
+      ]
+    },
     "@bounded-systems/verbspec@0.3.1": {
       "integrity": "993d7b588363ed8817f7a7ea6c8d2ddb17138f61f87659041705759b4a1ae063",
       "dependencies": [
@@ -30,6 +37,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@bounded-systems/trellis-kit@0.1",
       "jsr:@bounded-systems/verbspec@~0.3.1",
       "jsr:@std/assert@1",
       "npm:zod@^4.4.3"
