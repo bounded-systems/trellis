@@ -8,7 +8,7 @@
  *   deno run --allow-read --allow-write gen.ts
  */
 
-import { type VerbSpec } from "verbspec";
+import type { VerbSpec } from "verbspec";
 import { SCOUT_WIRE } from "./specs/scoutd.ts";
 
 export interface WireManifest {
