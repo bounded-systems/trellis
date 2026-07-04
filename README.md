@@ -1,7 +1,7 @@
 # trellis
 
 The bounded-systems **contract map** — a semantic tree whose nodes are repos and
-whose links are *actual specs* — plus the one aggregating **flake check that CI
+whose links are _actual specs_ — plus the one aggregating **flake check that CI
 runs** to prove those links hold.
 
 A trellis is the lattice a tree is trained onto; here each crossbar is a
@@ -40,9 +40,16 @@ contract **types** it provides and consumes, **never** by naming other repos:
   "node": "door-keeper",
   "visibility": "public",
   "provides": [
-    { "type": "keeper-wire", "kind": "wire", "spec": { "verbspec": "./specs/keeperd.ts" } }
+    {
+      "type": "keeper-wire",
+      "kind": "wire",
+      "spec": { "verbspec": "./specs/keeperd.ts" }
+    }
   ],
-  "consumes": [{ "type": "guest-room-protocol" }, { "type": "ocap-provenance-predicate" }]
+  "consumes": [
+    { "type": "guest-room-protocol" },
+    { "type": "ocap-provenance-predicate" }
+  ]
 }
 ```
 
@@ -58,19 +65,22 @@ bulk list of all public repos (most with no edges yet), and a per-repo
 incrementally. The two **private** repos are deliberately absent — they belong
 to a private sidecar (**`trellis-private`**, mirroring `.github` /
 `.github-private`) that reuses the same schema + flake; nodes carry a
-`visibility` field and assembly is visibility-aware.
+`visibility` field and assembly is visibility-aware. This public/private split
+is itself a contract — one-way visibility (private ⇒ public, never the reverse)
+— written up in
+[`docs/public-private-contract.md`](docs/public-private-contract.md).
 
 ## Contract kinds
 
-| kind | governs | leaf check |
-|---|---|---|
-| `wire` | daemon RPC / MCP tool / CLI surfaces | VerbSpec schema conformance |
-| `vendored-pin` | flake-input mirrors (door-kit, guest-room, …) | `*-mirror` diff derivation |
-| `shared-schema` | ocap-provenance, machine-schema, … | schema equivalence |
-| `external-platform` | GitHub / Slack / Notion APIs | (external) |
-| `import-boundary` | the "one sanctioned reader" seams | `@bounded-systems/seam-check` |
-| `repo-config` | conformance, brand/token gates | dev-contracts / actions |
-| `provenance` | signing, attestation, lineage | verify / ocap-provenance |
+| kind                | governs                                       | leaf check                    |
+| ------------------- | --------------------------------------------- | ----------------------------- |
+| `wire`              | daemon RPC / MCP tool / CLI surfaces          | VerbSpec schema conformance   |
+| `vendored-pin`      | flake-input mirrors (door-kit, guest-room, …) | `*-mirror` diff derivation    |
+| `shared-schema`     | ocap-provenance, machine-schema, …            | schema equivalence            |
+| `external-platform` | GitHub / Slack / Notion APIs                  | (external)                    |
+| `import-boundary`   | the "one sanctioned reader" seams             | `@bounded-systems/seam-check` |
+| `repo-config`       | conformance, brand/token gates                | dev-contracts / actions       |
+| `provenance`        | signing, attestation, lineage                 | verify / ocap-provenance      |
 
 The flake check **wraps** these leaf mechanisms — it doesn't replace them. A
 type moves from `declared` to `verified` when its leaf check is wired into the
@@ -106,8 +116,8 @@ consumer).
   `request(...)` calls and asserts both conform to the manifest (method set +
   `import-and-push` param names).
 - `flake.nix` — pins `door-keeper` + `door-kit` as source inputs and exposes
-  `checks.<system>.keeper-wire`, runnable offline (`--no-remote`) on Linux **and**
-  darwin (so CI hits it *and* a maintainer can run it locally).
+  `checks.<system>.keeper-wire`, runnable offline (`--no-remote`) on Linux
+  **and** darwin (so CI hits it _and_ a maintainer can run it locally).
 
 ```sh
 nix flake check   # runs keeper-wire against the pinned source
@@ -116,8 +126,8 @@ nix flake check   # runs keeper-wire against the pinned source
 Today this **fails on purpose** — it catches the real upstream drift
 (`import-and-push` sends `ledgerRef`, not `manifestDigest`). That red is the
 finding, not a trellis bug. CI runs it **report-only** (`continue-on-error`)
-until the upstream fix lands; flip it to a blocking gate once door-kit/door-keeper
-are corrected and the inputs are re-pinned.
+until the upstream fix lands; flip it to a blocking gate once
+door-kit/door-keeper are corrected and the inputs are re-pinned.
 
 ## A second live edge: `door-kit-mirror` (a different kind)
 
