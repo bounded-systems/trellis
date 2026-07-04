@@ -1,0 +1,44 @@
+flake.nix
+  s_70508ca017cb29::t_a3247522a0dedf 72-86
+  s_70508ca017cb29::t_d1e2740bd65615 39-40
+  s_70508ca017cb29::t_c52dc7807caed3 21-24
+specs/scout-wire.json
+  s_70508ca017cb29::t_23eb2cfdd2f692 1-38
+check/scout-wire.ts
+  s_70508ca017cb29::t_eef4424569a1d5 1-45
+flake.lock
+  s_70508ca017cb29::t_14aa46115cc502 35-50,87
+gen.ts
+  s_70508ca017cb29::t_590ad12dfb86c1 3-5,10,12,14,22-27,29,33,36-40,42-49
+specs/scoutd.ts
+  s_70508ca017cb29::t_05e6f42bd00989 154
+  s_70508ca017cb29::t_bfa98e22c30bd8 1-153
+deno.json
+  s_70508ca017cb29::t_618f5a1c92422d 41-43,45
+  s_70508ca017cb29::t_e0ca0ec0cbee16 17
+registry.ts
+  s_70508ca017cb29::t_ffd2a43da2672e 44
+check/parse.ts
+  s_70508ca017cb29::t_ad313037584c56 64
+  s_70508ca017cb29::t_a23f7908e88ed8 1-63,65-100
+check/keeper-wire.ts
+  s_70508ca017cb29::t_bf1ebbd66a55fb 63-66
+  s_70508ca017cb29::t_208658fd6986c8 25-27,29-32,34-35,60
+  s_70508ca017cb29::t_61af849d3e41ba 28,33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "9e279cd19c34bce107f31dd785b3f30b8046179e",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
