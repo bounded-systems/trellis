@@ -158,7 +158,15 @@
   {
     "node": "cf-oidc-token-broker",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "oidc-app-token-broker",
+        "kind": "external-platform",
+        "spec": {
+          "external": "https://github.com/bounded-systems/cf-oidc-token-broker#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -588,7 +596,15 @@
   {
     "node": "seam-check",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "seam-check-lib",
+        "kind": "import-boundary",
+        "spec": {
+          "jsrSchema": "@bounded-systems/seam-check"
+        }
+      }
+    ],
     "consumes": []
   },
   {

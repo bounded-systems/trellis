@@ -19,5 +19,9 @@
       }
     }
   ],
-  "consumes": []
+  "consumes": [
+    {
+      "type": "seam-check-lib"
+    }
+  ]
 }
