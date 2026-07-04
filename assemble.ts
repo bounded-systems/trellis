@@ -22,15 +22,41 @@ import {
 } from "./schema.ts";
 import { contractType } from "./registry.ts";
 
-/** Read and validate every `*.trellis.json` under `dir`. Sorted by node id. */
+/**
+ * Load and validate all node declarations under `dir`, sorted by node id.
+ *
+ * Two sources merge, by node id:
+ *   1. `catalog.json` — a bulk array of minimal nodes giving org-wide coverage
+ *      (every public repo appears, most with no edges yet). Low priority.
+ *   2. `*.trellis.json` — a richly-mapped adopter declaration per file. Wins
+ *      over the catalog entry for the same node.
+ *
+ * So the tree covers every repo, while the mapped ones carry real edges. A
+ * private sidecar (`trellis-private`) supplies its own catalog of private nodes.
+ */
 export async function loadDecls(dir: string): Promise<NodeDecl[]> {
-  const decls: NodeDecl[] = [];
+  const byNode = new Map<string, NodeDecl>();
+
+  try {
+    const catalog = JSON.parse(await Deno.readTextFile(`${dir}/catalog.json`));
+    if (Array.isArray(catalog)) {
+      for (const raw of catalog) {
+        const d = NodeDeclSchema.parse(raw);
+        byNode.set(d.node, d);
+      }
+    }
+  } catch (e) {
+    if (!(e instanceof Deno.errors.NotFound)) throw e;
+  }
+
   for await (const entry of Deno.readDir(dir)) {
     if (!entry.isFile || !entry.name.endsWith(".trellis.json")) continue;
     const raw = JSON.parse(await Deno.readTextFile(`${dir}/${entry.name}`));
-    decls.push(NodeDeclSchema.parse(raw));
+    const d = NodeDeclSchema.parse(raw);
+    byNode.set(d.node, d); // adopter file overrides the catalog entry
   }
-  return decls.sort((a, b) => a.node.localeCompare(b.node));
+
+  return [...byNode.values()].sort((a, b) => a.node.localeCompare(b.node));
 }
 
 /**

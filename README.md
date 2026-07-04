@@ -48,13 +48,17 @@ contract **types** it provides and consumes, **never** by naming other repos:
 
 trellis **assembles** the tree by matching a provider of type `T` to every
 consumer of type `T`. Rename or swap a repo and the type-links still resolve —
-the map never hardcodes an edge. Repos that haven't adopted a `trellis.json` yet
-are declared on their behalf under `bootstrap/` (to be upstreamed as PRs).
+the map never hardcodes an edge.
 
-Until adopters materialize, the public tree assembles the public + bootstrap
-declarations; a private sidecar (**`trellis-private`**, mirroring `.github` /
-`.github-private`) reuses the same schema + flake to assemble private repos.
-Nodes carry a `visibility` field and assembly is visibility-aware.
+**Coverage.** Every public org repo is a node: `bootstrap/catalog.json` is a
+bulk list of all public repos (most with no edges yet), and a per-repo
+`bootstrap/<repo>.trellis.json` overrides its catalog entry with the real
+`provides`/`consumes` once mapped (to be upstreamed into each repo as a
+`trellis.json`). So the tree is complete as a node set and grows edges
+incrementally. The two **private** repos are deliberately absent — they belong
+to a private sidecar (**`trellis-private`**, mirroring `.github` /
+`.github-private`) that reuses the same schema + flake; nodes carry a
+`visibility` field and assembly is visibility-aware.
 
 ## Contract kinds
 
@@ -115,10 +119,22 @@ finding, not a trellis bug. CI runs it **report-only** (`continue-on-error`)
 until the upstream fix lands; flip it to a blocking gate once door-kit/door-keeper
 are corrected and the inputs are re-pinned.
 
+## A second live edge: `door-kit-mirror` (a different kind)
+
+`checks.<system>.door-kit-mirror` proves a **different contract kind**
+(`vendored-pin`) with a **different mechanism** — a pure byte-`diff`, no deno —
+showing the flake wraps heterogeneous leaf checks, not one tool. door-keeper
+vendors door-kit's `lib/{keeper,runtime}.ts`; the check asserts those copies are
+byte-identical to door-kit HEAD. It fails today because the vendored copy is
+stale (the same drift as the door-keeper issue), catching it from the
+pin-freshness angle rather than the wire angle. Generalizes the per-repo
+`*-mirror` checks that existed but never ran in CI.
+
 ## Status
 
-`keeper-wire` is `verified` (live check). Every other type is `declared` —
-mapped and honest that no check enforces it yet. Each new leaf check is one
-flake input + one `checks.*` entry.
+Two types are `verified` (live checks): `keeper-wire` (wire) and
+`door-kit-mirror` (vendored-pin). Every other type is `declared` — mapped and
+honest that no check enforces it yet. Every public repo is a node; edges grow
+one leaf check at a time (one flake input + one `checks.*` entry).
 
 Source-available under **PolyForm Noncommercial 1.0.0**.
