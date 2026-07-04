@@ -65,9 +65,9 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     type: "door-kit-mirror",
     kind: "vendored-pin",
     spec: { flakeInput: "door-kit" },
-    verified: false,
+    verified: true,
     summary:
-      "The door-kit client + runtime vendored into each door daemon at a pinned flake rev.",
+      "The door-kit client + runtime vendored into each door daemon — must stay byte-identical to door-kit HEAD.",
   },
   {
     type: "guest-room-protocol",

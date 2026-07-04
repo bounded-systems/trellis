@@ -51,6 +51,24 @@
             ${door-kit}/lib/keeper.ts
           touch $out
         '';
+
+        # door-kit-mirror (vendored-pin kind): a different check MECHANISM than
+        # the deno wire check — a pure byte-diff. door-keeper vendors door-kit's
+        # client + runtime; those copies must stay byte-identical to door-kit
+        # HEAD. Generalizes the per-repo `*-mirror` checks that existed but never
+        # ran in CI (aarch64-darwin-only). Fails while the vendored copy is stale.
+        door-kit-mirror = pkgs.runCommand "trellis-door-kit-mirror" { } ''
+          fail=0
+          for f in lib/keeper.ts lib/runtime.ts; do
+            if ! diff -q ${door-keeper}/$f ${door-kit}/$f >/dev/null 2>&1; then
+              echo "door-kit-mirror: door-keeper's vendored $f differs from door-kit HEAD (stale pin — re-sync via 'nix run .#sync-door-kit')"
+              fail=1
+            fi
+          done
+          if [ $fail -ne 0 ]; then exit 1; fi
+          echo "door-kit-mirror: vendored copies are byte-identical to door-kit HEAD."
+          touch $out
+        '';
       });
 
       # `nix run .#sync-manifest` — regenerate specs/keeper-wire.json from the

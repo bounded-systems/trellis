@@ -1,0 +1,440 @@
+[
+  {
+    "node": ".github",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "anchored-chain",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "anchored-chain-sqlite",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "audit-context",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "auth",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "baobab",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "bd",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "bounded-tools-mcp",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "bounded.tools",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "brand",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "cas",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "cf-oidc-token-broker",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "claude-box",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "claude-token-tools",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "conformance",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "conformance-kit",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "content-catalog",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "deploy",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "dev-contracts",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "dev-contracts-extract",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "dev-contracts-spec",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "dev-contracts-transform",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "dev-contracts-validate",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "dev-registry",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "disposition",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "door-concierge",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "door-keeper",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "door-kit",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "door-net",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "door-peercred",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "door-scout",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "env",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "facilities",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "fleet",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "fold-engine",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "frond",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "fs",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "gh",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "gh-action-brand-checks",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "gh-action-contracts",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "gh-action-node-uniqueness",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "gh-project-room",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "git",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "git-ast",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "github-budget",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "guest-room",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "hooksmith",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "host",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "installer",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "lima-devshell",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "lobby",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "lone",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "machine-schema",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "mint",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "ocap-provenance",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "policy",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "proc",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "prx",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "repo-root",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "schema-bridge",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "schema-gen",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "scout",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "seam-check",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "site",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "site-mcp",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "slack",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "static-mcp",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "string-audit",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "surface-sync",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "trellis",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "trust",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "verbspec",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
+    "node": "verify",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  }
+]
