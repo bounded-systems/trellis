@@ -158,10 +158,18 @@ own invariant). trellis models both.
 
 ## Status
 
-Three types are `verified` (live checks): `keeper-wire` (wire, red — drift),
-`door-kit-mirror` (vendored-pin, red — drift), and `sanctioned-reader-seam`
-(import-boundary, green — conforms). Every other type is `declared` — mapped and
-honest that no check enforces it yet. Every public repo is a node; edges grow
-one leaf check at a time (one flake input + one `checks.*` entry).
+Four types are `verified` (live checks) across three kinds:
+
+| type | kind | result |
+|---|---|---|
+| `keeper-wire` | wire | 🔴 red — real drift (`ledgerRef`/`kind` params) |
+| `scout-wire` | wire | 🟢 green — daemon + client conform |
+| `door-kit-mirror` | vendored-pin | 🔴 red — stale vendored copy |
+| `sanctioned-reader-seam` | import-boundary | 🟢 green — `fs` upholds its claim |
+
+Both wire checks share the offline parsers in `check/parse.ts`. Every other type
+is `declared` — mapped and honest that no check enforces it yet. Every public
+repo is a node; edges grow one leaf check at a time (one flake input + one
+`checks.*` entry).
 
 Source-available under **PolyForm Noncommercial 1.0.0**.

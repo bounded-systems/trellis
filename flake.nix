@@ -18,6 +18,10 @@
       url = "github:bounded-systems/door-kit";
       flake = false;
     };
+    door-scout = {
+      url = "github:bounded-systems/door-scout";
+      flake = false;
+    };
     # seam-check is pinned as source (not consumed as a flake) and its pure
     # `seam.ts` is imported directly — trellis WRAPS the published tool, it does
     # not reimplement it.
@@ -32,7 +36,8 @@
     };
   };
 
-  outputs = { self, nixpkgs, door-keeper, door-kit, seam-check, fs }:
+  outputs =
+    { self, nixpkgs, door-keeper, door-kit, door-scout, seam-check, fs }:
     let
       # Linux for real CI runners AND darwin so a maintainer can `nix flake
       # check` locally — the previous per-repo *-mirror checks were
@@ -61,6 +66,21 @@
           deno run --no-remote --allow-read check/keeper-wire.ts \
             ${door-keeper}/keeperd.ts \
             ${door-kit}/lib/keeper.ts
+          touch $out
+        '';
+
+        # scout-wire: same wire-kind check for scoutd (door-scout) + its client
+        # (door-kit's scout.ts). Expected to PASS — scout's daemon + client
+        # agree — a second green edge alongside the red keeper-wire.
+        scout-wire = pkgs.runCommand "trellis-scout-wire" {
+          nativeBuildInputs = [ pkgs.deno ];
+          DENO_DIR = "/tmp/deno";
+        } ''
+          export HOME=$TMPDIR
+          cd ${self}
+          deno run --no-remote --allow-read check/scout-wire.ts \
+            ${door-scout}/scoutd.ts \
+            ${door-kit}/lib/scout.ts
           touch $out
         '';
 

@@ -1,0 +1,38 @@
+{
+  "type": "scout-wire",
+  "methods": [
+    "status",
+    "repo",
+    "pr",
+    "issue",
+    "fetch",
+    "download"
+  ],
+  "params": {
+    "status": [],
+    "repo": [
+      "url",
+      "ref"
+    ],
+    "pr": [
+      "repo",
+      "number",
+      "diff",
+      "comments"
+    ],
+    "issue": [
+      "repo",
+      "number",
+      "comments"
+    ],
+    "fetch": [
+      "url",
+      "binary",
+      "maxSize"
+    ],
+    "download": [
+      "url",
+      "maxSize"
+    ]
+  }
+}

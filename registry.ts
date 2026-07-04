@@ -41,7 +41,7 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     type: "scout-wire",
     kind: "wire",
     spec: { verbspec: "./specs/scoutd.ts" },
-    verified: false,
+    verified: true,
     summary:
       "scoutd's external-read RPC surface (repo/pr/issue/fetch/download/status).",
   },
