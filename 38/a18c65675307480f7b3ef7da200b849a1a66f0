@@ -1,0 +1,31 @@
+check/keeper-wire.ts
+  s_70508ca017cb29::t_b1acf721e39c10 54-56
+flake.lock
+  s_70508ca017cb29::t_396c030152a331 102-103,106
+trellis_test.ts
+  s_e0a4e094afcd00::t_0526edafbfa20c 37,134,142,150-153,155,158
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "38a18c65675307480f7b3ef7da200b849a1a66f0",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    },
+    "s_e0a4e094afcd00": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "db755f05-3e88-41a1-9828-4de18be948b3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
