@@ -24,7 +24,7 @@ jobs:
       - name: manifest is in sync with the VerbSpec source
         run: |
           deno task gen
-          git diff --exit-code specs/keeper-wire.json
+          git diff --exit-code specs/scout-wire.json
       - run: deno task check
       - run: deno lint
       - run: deno fmt --check

@@ -32,7 +32,7 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
   {
     type: "keeper-wire",
     kind: "wire",
-    spec: { verbspec: "./specs/keeperd.ts" },
+    spec: { flakeInput: "keeper-wire" },
     verified: true,
     summary:
       "keeperd's git-signing RPC surface (commit/push/import-and-push/attest-launch/sign/verify/status/getPublicKey).",
