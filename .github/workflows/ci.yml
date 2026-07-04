@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   # trellis's own quality gates — blocking. The map machinery must be correct.
   deno:
@@ -42,3 +46,55 @@ jobs:
         # --keep-going so every contract edge reports its finding, not just the
         # first to fail — this tool exists to surface ALL drift at once.
         run: nix flake check --print-build-logs --keep-going
+
+  # status: the honest, signed lattice projection (only on push to main). Builds
+  # each verified check to get its REAL pass/fail, emits status.json, cosign
+  # keyless-signs it, and publishes it + the sigstore bundle to the `status`
+  # branch — a stable URL the Trust Center + bounded.tools consume. Never fails
+  # the run: red edges are DATA to publish, not a build error.
+  status:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the `status` branch
+      id-token: write # cosign keyless (Fulcio/Rekor)
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2.0.4
+        with:
+          deno-version: v2.x
+      - uses: DeterminateSystems/nix-installer-action@1d87d45818068401a10cf16bdc5f00b24994a83f # main
+      - uses: DeterminateSystems/flakehub-cache-action@4d48cd3cda2f381a3006ff800e1c1ca0c9809159 # v3.21.1
+      - uses: sigstore/cosign-installer@d7d6bc7722e3daa8354c50bcb52f4837da5e9b6a # v3.7.0
+
+      - name: build each verified check → results.json (real pass/fail)
+        run: |
+          system="x86_64-linux"
+          echo '{}' > results.json
+          while read -r t; do
+            [ -z "$t" ] && continue
+            if nix build ".#checks.$system.$t" --no-link 2>/dev/null; then r=pass; else r=fail; fi
+            echo "  $t: $r"
+            tmp=$(mktemp); jq --arg t "$t" --arg r "$r" '. + {($t): $r}' results.json > "$tmp" && mv "$tmp" results.json
+          done < <(deno run --allow-read status.ts --checks)
+          cat results.json
+
+      - name: emit status.json
+        run: deno run --allow-read status.ts --results results.json > status.json
+
+      - name: cosign keyless-sign the projection
+        run: cosign sign-blob --yes --bundle status.json.sigstore.json status.json
+
+      - name: publish to the `status` branch
+        env:
+          SHA: ${{ github.sha }}
+        run: |
+          git config user.name "trellis-ci"
+          git config user.email "noreply@bounded.tools"
+          mkdir -p /tmp/pub && cp status.json status.json.sigstore.json /tmp/pub/
+          git checkout --orphan status-tmp
+          git rm -rf . >/dev/null 2>&1 || true
+          cp /tmp/pub/status.json /tmp/pub/status.json.sigstore.json .
+          git add status.json status.json.sigstore.json
+          git commit -m "status: $SHA"
+          git push -f origin status-tmp:status
