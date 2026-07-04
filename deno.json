@@ -15,7 +15,7 @@
     "@std/assert": "jsr:@std/assert@^1"
   },
   "tasks": {
-    "check": "deno check schema.ts registry.ts assemble.ts verbs.ts gen.ts status.ts specs/keeperd.ts specs/scoutd.ts check/parse.ts check/keeper-wire.ts check/scout-wire.ts",
+    "check": "deno check schema.ts registry.ts assemble.ts verbs.ts gen.ts status.ts specs/keeperd.ts specs/scoutd.ts check/parse.ts check/keeper-wire.ts check/scout-wire.ts check/acyclic.ts",
     "test": "deno test --allow-read",
     "gen": "deno run --allow-read --allow-write gen.ts",
     "status": "deno run --allow-read status.ts",
@@ -46,6 +46,7 @@
       "check/parse.ts",
       "check/keeper-wire.ts",
       "check/scout-wire.ts",
+      "check/acyclic.ts",
       "bootstrap",
       "LICENSE",
       "README.md"

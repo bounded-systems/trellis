@@ -166,3 +166,78 @@ export const TreeSchema: z.ZodType<Tree> = z.object({
   nodes: z.array(NodeDeclSchema),
   edges: z.array(EdgeSchema),
 });
+
+// ---------------------------------------------------------------------------
+// The build-derivation model — the canonical definition (the "kit") of what a
+// repo IS in the lattice, so trellis, trellis-private, the consumers, and every
+// repo's own trellis.json share ONE definition rather than re-deriving it.
+// ---------------------------------------------------------------------------
+
+/** The non-negotiable output every repo produces — its build artifact. */
+export const BUILD = "build" as const;
+/** The baseline input every repo consumes — its own source. */
+export const SELF = "self" as const;
+
+/**
+ * A repo as a build derivation: OUTPUTS (the non-negotiable `build`, then the
+ * contract types it provides) are produced from INPUTS (`self`, then the
+ * contract types it consumes). `mapped` is true once it's wired to another repo
+ * by a contract. (Planned inputs/outputs: deploy artifacts + external deps.)
+ */
+export interface Derivation {
+  readonly node: string;
+  readonly outputs: readonly string[];
+  readonly inputs: readonly string[];
+  readonly mapped: boolean;
+}
+
+/** Project a node's declaration to its build derivation — the canonical model. */
+export function toDerivation(n: NodeDecl): Derivation {
+  const provides = n.provides.map((p) => p.type);
+  const consumes = n.consumes.map((c) => c.type);
+  return {
+    node: n.node,
+    outputs: [BUILD, ...provides],
+    inputs: [SELF, ...consumes],
+    mapped: provides.length + consumes.length > 0,
+  };
+}
+
+/**
+ * Find dependency cycles. A contract edge is provider→consumer, so the build
+ * dependency runs consumer→provider (a repo depends on the repos whose outputs
+ * it consumes). A cycle means two repos build-depend on each other — a defect
+ * broken by extracting the shared contract into its own (contract-only) repo.
+ * Returns each cycle as the repos on it (deduped by rotation).
+ */
+export function findCycles(
+  edges: ReadonlyArray<{ from: string; to: string }>,
+): string[][] {
+  const deps = new Map<string, string[]>(); // consumer → providers it depends on
+  for (const e of edges) {
+    if (e.from === e.to) continue;
+    (deps.get(e.to) ?? deps.set(e.to, []).get(e.to)!).push(e.from);
+  }
+  const cycles: string[][] = [];
+  const seen = new Set<string>();
+  const stack: string[] = [];
+  const onStack = new Set<string>();
+  const visit = (n: string): void => {
+    if (onStack.has(n)) {
+      cycles.push(stack.slice(stack.indexOf(n)));
+      return;
+    }
+    if (seen.has(n)) return;
+    seen.add(n);
+    stack.push(n);
+    onStack.add(n);
+    for (const d of deps.get(n) ?? []) visit(d);
+    stack.pop();
+    onStack.delete(n);
+  };
+  for (const n of deps.keys()) visit(n);
+  const canon = (c: string[]) => [...c].sort().join(">");
+  const uniq = new Map<string, string[]>();
+  for (const c of cycles) uniq.set(canon(c), c);
+  return [...uniq.values()];
+}

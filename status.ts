@@ -15,9 +15,21 @@
  * reads the bootstrap declarations + the results file.
  */
 
-import type { ContractKind } from "./schema.ts";
+import {
+  type ContractKind,
+  type Derivation,
+  findCycles,
+  toDerivation,
+} from "./schema.ts";
 import { assemble, loadDecls, unmatchedConsumes } from "./assemble.ts";
 import { CONTRACT_TYPES, contractType } from "./registry.ts";
+
+// The build-derivation model + cycle detection live in the kit (schema.ts) so
+// trellis, trellis-private, and consumers share one definition. Re-exported for
+// convenience.
+export { findCycles, toDerivation };
+/** A repo as a build derivation (see the kit). */
+export type StatusNode = Derivation;
 
 /** Live result of a contract type's check. `declared` = no live check wired. */
 export type Result = "pass" | "fail" | "declared";
@@ -38,23 +50,6 @@ export interface StatusType {
   readonly edges: number;
   readonly providers: number;
   readonly summary: string;
-}
-
-/**
- * Every repo, as a build-derivation node. Its OUTPUT is non-negotiable — the
- * `build` (every repo produces its build artifact) — plus any contracts it
- * provides. Its INPUT is at least `self` (the repo's own source) plus any
- * contracts it consumes. `mapped` is true once it has a cross-repo contract;
- * an unmapped repo still has its build + self, it just isn't wired to others
- * yet. (Deploy outputs + external deps are a planned extension.)
- */
-export interface StatusNode {
-  readonly node: string;
-  /** Non-negotiable `build`, then any contract types this repo provides. */
-  readonly outputs: readonly string[];
-  /** `self`, then any contract types this repo consumes. */
-  readonly inputs: readonly string[];
-  readonly mapped: boolean;
 }
 
 export interface StatusReport {
@@ -79,46 +74,6 @@ export interface StatusReport {
   /** Dependency cycles (consumer → provider). Empty when the lattice is a DAG. */
   readonly cycles: readonly (readonly string[])[];
   readonly unmatched: ReadonlyArray<{ node: string; type: string }>;
-}
-
-/**
- * Find dependency cycles. A contract edge is provider→consumer, so the *build*
- * dependency runs consumer→provider (a repo depends on the repos whose outputs
- * it consumes). A cycle there means two repos build-depend on each other — a
- * defect, broken by extracting the shared contract into its own repo. Returns
- * each cycle as the repos on it (deduped by rotation).
- */
-export function findCycles(
-  edges: ReadonlyArray<{ from: string; to: string }>,
-): string[][] {
-  const deps = new Map<string, string[]>(); // consumer → [providers it depends on]
-  for (const e of edges) {
-    if (e.from === e.to) continue; // self-edges never cycle
-    (deps.get(e.to) ?? deps.set(e.to, []).get(e.to)!).push(e.from);
-  }
-  const cycles: string[][] = [];
-  const seen = new Set<string>();
-  const stack: string[] = [];
-  const onStack = new Set<string>();
-  const visit = (n: string): void => {
-    if (onStack.has(n)) {
-      cycles.push(stack.slice(stack.indexOf(n)));
-      return;
-    }
-    if (seen.has(n)) return;
-    seen.add(n);
-    stack.push(n);
-    onStack.add(n);
-    for (const d of deps.get(n) ?? []) visit(d);
-    stack.pop();
-    onStack.delete(n);
-  };
-  for (const n of deps.keys()) visit(n);
-  // dedupe cycles that are rotations of each other
-  const canon = (c: string[]) => [...c].sort().join(">");
-  const uniq = new Map<string, string[]>();
-  for (const c of cycles) uniq.set(canon(c), c);
-  return [...uniq.values()];
 }
 
 /** The contract types that have a live check (CI must build one flake check each). */
@@ -171,18 +126,8 @@ export function projectStatus(
     summary: c.summary,
   }));
 
-  // EVERY repo as a build-derivation node: output is the non-negotiable `build`
-  // plus its provides; input is `self` plus its consumes.
-  const nodes: StatusNode[] = tree.nodes.map((n) => {
-    const provides = n.provides.map((p) => p.type);
-    const consumes = n.consumes.map((c) => c.type);
-    return {
-      node: n.node,
-      outputs: ["build", ...provides],
-      inputs: ["self", ...consumes],
-      mapped: provides.length + consumes.length > 0,
-    };
-  });
+  // EVERY repo as a build derivation (the kit's canonical model).
+  const nodes: StatusNode[] = tree.nodes.map(toDerivation);
 
   const cycles = findCycles(tree.edges);
   const verified = types.filter((t) => t.verified);
@@ -213,6 +158,22 @@ if (import.meta.main) {
     // Emit the verified type names, one per line — CI loops `nix build` over them.
     console.log(verifiedTypes().join("\n"));
     Deno.exit(0);
+  }
+
+  if (Deno.args.includes("--check-acyclic")) {
+    // The lattice must be a build DAG. Exit non-zero (listing each cycle) if not
+    // — the fix is to extract the shared contract into its own contract-only repo.
+    const decls = await loadDecls(BOOTSTRAP_DIR);
+    const cycles = findCycles(assemble(decls).edges);
+    if (cycles.length === 0) {
+      console.log("acyclic: the lattice is a build DAG.");
+      Deno.exit(0);
+    }
+    console.error(
+      `acyclic: ${cycles.length} dependency cycle(s) — break each by extracting a contract-only repo:`,
+    );
+    for (const c of cycles) console.error(`  ${[...c, c[0]].join(" → ")}`);
+    Deno.exit(1);
   }
 
   const ri = Deno.args.indexOf("--results");

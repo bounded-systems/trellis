@@ -121,6 +121,20 @@
               fs
             touch $out
           '';
+
+        # acyclic: the lattice itself must be a build DAG (the kit's invariant).
+        # A META check over trellis's own declarations — no pinned inputs. Fails
+        # while the door family has daemon↔door-kit cycles (report-only until
+        # they're broken by extracting the wire specs into contract-only repos).
+        acyclic = pkgs.runCommand "trellis-acyclic" {
+          nativeBuildInputs = [ pkgs.deno ];
+          DENO_DIR = "/tmp/deno";
+        } ''
+          export HOME=$TMPDIR
+          cd ${self}
+          deno run --no-remote --allow-read check/acyclic.ts
+          touch $out
+        '';
       });
 
       # `nix run .#sync-manifest` — regenerate specs/keeper-wire.json from the
