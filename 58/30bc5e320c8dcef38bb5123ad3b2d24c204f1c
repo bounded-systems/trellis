@@ -1,0 +1,24 @@
+specs/seams.json
+  s_70508ca017cb29::t_769b9912b50b0a 5
+check/sanctioned-reader-seam.ts
+  s_70508ca017cb29::t_49e1d0bc85962e 24,28
+  s_70508ca017cb29::t_945ebb9aaf35a6 84,87
+flake.lock
+  s_70508ca017cb29::t_400318cb1dde94 1-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "5830bc5e320c8dcef38bb5123ad3b2d24c204f1c",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
