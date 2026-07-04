@@ -1,0 +1,31 @@
+check/sanctioned-reader-seam.ts
+  s_70508ca017cb29::t_e5b2bf2689364c 1-86
+  s_70508ca017cb29::t_7d06b871378e0e 87-89
+flake.nix
+  s_70508ca017cb29::t_4b19ab6a538b34 21-32,35
+  s_70508ca017cb29::t_d9ee0f45ffa282 84-103
+specs/seams.json
+  s_70508ca017cb29::t_d34de796e65f38 1-7
+registry.ts
+  s_70508ca017cb29::t_8d8860e7a967b0 100,102
+verbs.ts
+  s_70508ca017cb29::t_0e75658855624b 162,169,175,177-181,187
+bootstrap/fs.trellis.json
+  s_70508ca017cb29::t_9b7f0da9b8e9f0 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "8e8a9c126b0f05470276e071cca5832974082bbe",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
