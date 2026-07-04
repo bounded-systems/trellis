@@ -1,0 +1,40 @@
+registry.ts
+  s_70508ca017cb29::t_2c83feb62881bb 104-165
+  s_70508ca017cb29::t_6454347ac92d23 166-169
+status.ts
+  s_70508ca017cb29::t_71cb7ab43dcd9a 43,50-52,58-59,77-78,122
+  s_70508ca017cb29::t_1108d7efdc8929 174-175,181-183,187,197-199,204
+  s_70508ca017cb29::t_886b63ad3b9a48 176-180,184-186,191,203
+  s_70508ca017cb29::t_352b243fe96a47 44-49,53-57,68-73,79-80,84-121
+  s_e0a4e094afcd00::t_2a19ef6fc3a6ed 123
+bootstrap/catalog.json
+  s_70508ca017cb29::t_a0f7ecda7e0ff7 11-19,25-33,39-47,53-61,67-75,81-89,96-103,108-121,126-142,147-155,179-187,193-201,207-215,263-271,313-321,357-365,395-403,415-423,441-449,473-481,487-495,513-521,527-535,542-546,551-559,577-585,597-613,619-626,631-639,645-653,665-673,691-699,706-710
+bootstrap/fs.trellis.json
+  s_70508ca017cb29::t_331f620bf3a6b1 10-19
+status_test.ts
+  s_70508ca017cb29::t_f343cc20a07a61 3,52-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "1af61598ba161ad2fb2aaf6b539bac8346c9ca9b",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    },
+    "s_e0a4e094afcd00": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "db755f05-3e88-41a1-9828-4de18be948b3",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
