@@ -51,11 +51,11 @@
     "door-kit": {
       "flake": false,
       "locked": {
-        "lastModified": 1782825253,
-        "narHash": "sha256-SqCZrDJidxgRuY/ArpqPfeMUJ5QkUoeZ28M3U/pl7v0=",
+        "lastModified": 1783203048,
+        "narHash": "sha256-7k7ADJGR5XPB17u9XRK+m3sRva4gRV1JJzLLQDN733M=",
         "owner": "bounded-systems",
         "repo": "door-kit",
-        "rev": "ff5cfc7ba8db80fe87fd3c66a2f21aba6c3afda6",
+        "rev": "4b72a33d4f03c7f5869c229adf8617802656a1b5",
         "type": "github"
       },
       "original": {
