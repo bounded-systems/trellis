@@ -149,12 +149,10 @@ Deno.test("conform() accepts declared params (incl. ledgerRef) + the kind discri
   const d = conform(KEEPER_MANIFEST, daemon, client);
   // ledgerRef is now a declared param → not drift; `kind` is the envelope
   // discriminator → skipped; only the genuinely-undeclared bogusField is flagged.
-  assertEquals(d.some((x) => x.detail.includes("ledgerRef")), false);
-  assertEquals(d.some((x) => x.detail.includes('"kind"')), false);
-  assertEquals(
-    d.some((x) => x.kind === "param-drift" && x.detail.includes("bogusField")),
-    true,
-  );
+  const drift = d.filter((x) => x.kind === "param-drift").map((x) => x.detail);
+  assertEquals(drift.some((s) => s.includes('sends "ledgerRef"')), false);
+  assertEquals(drift.some((s) => s.includes('sends "kind"')), false);
+  assertEquals(drift.some((s) => s.includes('sends "bogusField"')), true);
   assertEquals(d.some((x) => x.kind === "missing-method"), false);
 });
 
