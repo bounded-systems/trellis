@@ -10,7 +10,36 @@ import {
   conform,
   parseClientMethods,
   parseDaemonMethods,
+  type WireManifest,
 } from "./check/keeper-wire.ts";
+
+// A stand-in for @bounded-systems/keeper-wire's manifest.json (the agreement).
+const KEEPER_MANIFEST: WireManifest = {
+  type: "keeper-wire",
+  methods: [
+    "commit",
+    "push",
+    "import-and-push",
+    "attest-launch",
+    "sign",
+    "verify",
+    "status",
+    "getPublicKey",
+  ],
+  params: {
+    "import-and-push": [
+      "repo",
+      "bundleBase64",
+      "commitSha",
+      "branch",
+      "remote",
+      "pushArgs",
+      "manifestDigest",
+      "notesRef",
+      "l2LaunchDigest",
+    ],
+  },
+};
 
 const BOOTSTRAP = new URL("./bootstrap", import.meta.url).pathname;
 
@@ -35,15 +64,33 @@ Deno.test("assembled edges reference known nodes and registered types", async ()
   }
 });
 
-Deno.test("keeper-wire is verified and forms provider→consumer edges", async () => {
+Deno.test("keeper-wire is provided by its contract-only repo, not a daemon", async () => {
   const decls = await loadDecls(BOOTSTRAP);
   const t = assemble(decls);
   const kw = t.edges.filter((e) => e.type === "keeper-wire");
   assertEquals(kw.length > 0, true, "at least one keeper-wire edge");
   for (const e of kw) {
-    assertEquals(e.from, "door-keeper", "provider is door-keeper");
+    // extracted: the neutral keeper-wire repo provides it, so neither
+    // door-keeper nor door-kit owns it — that breaks the cycle.
+    assertEquals(e.from, "keeper-wire", "provider is the contract-only repo");
     assertEquals(e.status, "verified", "keeper-wire edges are verified");
   }
+});
+
+Deno.test("extracting keeper-wire breaks the door-keeper ↔ door-kit cycle + double agreement", async () => {
+  const decls = await loadDecls(BOOTSTRAP);
+  const t = assemble(decls);
+  const between = t.edges.filter((e) =>
+    (e.from === "door-keeper" && e.to === "door-kit") ||
+    (e.from === "door-kit" && e.to === "door-keeper")
+  );
+  const types = new Set(between.map((e) => e.type));
+  // only door-kit-mirror remains between them — keeper-wire now routes via the repo
+  assertEquals(
+    types.has("keeper-wire"),
+    false,
+    "keeper-wire no longer between the pair",
+  );
 });
 
 Deno.test("external-platform consume with no org provider is surfaced", async () => {
@@ -71,7 +118,7 @@ Deno.test("conform() catches a missing method (stale mirror)", () => {
     export async function status(){ return request<St>("status"); }
     export async function getPublicKey(){ return request<K>("getPublicKey"); }
   `;
-  const d = conform(daemon, client);
+  const d = conform(KEEPER_MANIFEST, daemon, client);
   assertEquals(
     d.some((x) =>
       x.kind === "missing-method" && x.detail === "import-and-push"
@@ -99,7 +146,7 @@ Deno.test("conform() catches ledgerRef param drift", () => {
     export async function status(){ return request<St>("status"); }
     export async function getPublicKey(){ return request<K>("getPublicKey"); }
   `;
-  const d = conform(daemon, client);
+  const d = conform(KEEPER_MANIFEST, daemon, client);
   assertEquals(
     d.some((x) => x.kind === "param-drift" && x.detail.includes("ledgerRef")),
     true,

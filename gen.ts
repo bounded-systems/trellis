@@ -1,25 +1,22 @@
 /**
  * @module
- * Project each wire-contract VerbSpec (the source of truth in specs/*.ts) to a
- * dependency-free JSON manifest the offline Nix checks consume. No drift: the
- * manifests are regenerated from the specs, never hand-edited.
+ * Project the remaining in-repo wire VerbSpecs to dependency-free manifests the
+ * offline checks consume. keeper-wire's spec moved to its own contract-only repo
+ * (@bounded-systems/keeper-wire), which generates its own manifest; trellis pins
+ * that repo and reads its manifest.json in the check.
  *
  *   deno run --allow-read --allow-write gen.ts
  */
 
-import type { VerbSpec } from "verbspec";
-import { KEEPER_WIRE } from "./specs/keeperd.ts";
+import { type VerbSpec } from "verbspec";
 import { SCOUT_WIRE } from "./specs/scoutd.ts";
 
-/** The projected manifest shape — the interchange IR for the offline checks. */
 export interface WireManifest {
   readonly type: string;
   readonly methods: readonly string[];
-  /** Per-method declared input field names. */
   readonly params: Readonly<Record<string, readonly string[]>>;
 }
 
-/** Build a manifest from a wire VerbSpec registry. */
 export function project(
   type: string,
   registry: Record<string, VerbSpec>,
@@ -34,7 +31,6 @@ export function project(
 }
 
 const MANIFESTS: ReadonlyArray<[string, Record<string, VerbSpec>]> = [
-  ["keeper-wire", KEEPER_WIRE],
   ["scout-wire", SCOUT_WIRE],
 ];
 

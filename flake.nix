@@ -22,6 +22,12 @@
       url = "github:bounded-systems/door-scout";
       flake = false;
     };
+    # the keeper-wire AGREEMENT, extracted to its own contract-only repo so
+    # neither door-keeper nor door-kit owns it (breaks the cycle).
+    keeper-wire = {
+      url = "github:bounded-systems/keeper-wire";
+      flake = false;
+    };
     # seam-check is pinned as source (not consumed as a flake) and its pure
     # `seam.ts` is imported directly — trellis WRAPS the published tool, it does
     # not reimplement it.
@@ -37,7 +43,8 @@
   };
 
   outputs =
-    { self, nixpkgs, door-keeper, door-kit, door-scout, seam-check, fs }:
+    { self, nixpkgs, door-keeper, door-kit, door-scout, keeper-wire, seam-check
+    , fs }:
     let
       # Linux for real CI runners AND darwin so a maintainer can `nix flake
       # check` locally — the previous per-repo *-mirror checks were
@@ -64,6 +71,7 @@
           export HOME=$TMPDIR
           cd ${self}
           deno run --no-remote --allow-read check/keeper-wire.ts \
+            ${keeper-wire}/manifest.json \
             ${door-keeper}/keeperd.ts \
             ${door-kit}/lib/keeper.ts
           touch $out

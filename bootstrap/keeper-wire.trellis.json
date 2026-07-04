@@ -1,0 +1,10 @@
+{
+  "node": "keeper-wire",
+  "visibility": "public",
+  "role": "contract-only",
+  "domain": "git-signing-agreement",
+  "provides": [
+    { "type": "keeper-wire", "kind": "wire", "spec": { "flakeInput": "keeper-wire" } }
+  ],
+  "consumes": []
+}
