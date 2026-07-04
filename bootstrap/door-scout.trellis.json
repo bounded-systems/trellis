@@ -3,10 +3,9 @@
   "visibility": "public",
   "role": "capability-door",
   "domain": "external-read",
-  "provides": [
-    { "type": "scout-wire", "kind": "wire", "spec": { "verbspec": "./specs/scoutd.ts" } }
-  ],
+  "provides": [],
   "consumes": [
+    { "type": "scout-wire" },
     { "type": "door-kit-mirror" },
     { "type": "guest-room-protocol" },
     { "type": "net-egress" }

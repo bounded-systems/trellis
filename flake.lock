@@ -1,5 +1,37 @@
 {
   "nodes": {
+    "concierge-wire": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783200414,
+        "narHash": "sha256-CoKsHJcU7KBdKiK26q7ZtxcXHfESdCe5TTQx3sne2Tk=",
+        "owner": "bounded-systems",
+        "repo": "concierge-wire",
+        "rev": "24ca9afd9051e217311428c20fa11435161dc8ed",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "concierge-wire",
+        "type": "github"
+      }
+    },
+    "door-concierge": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782825327,
+        "narHash": "sha256-K2/ULzkCIAWmDmYwtQP7fAzLWJqKBWL6MrwQdRvZztQ=",
+        "owner": "bounded-systems",
+        "repo": "door-concierge",
+        "rev": "eebbcb9bddf5a5b4268d9888d930df9f2be68575",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "door-concierge",
+        "type": "github"
+      }
+    },
     "door-keeper": {
       "flake": false,
       "locked": {
@@ -98,13 +130,32 @@
     },
     "root": {
       "inputs": {
+        "concierge-wire": "concierge-wire",
+        "door-concierge": "door-concierge",
         "door-keeper": "door-keeper",
         "door-kit": "door-kit",
         "door-scout": "door-scout",
         "fs": "fs",
         "keeper-wire": "keeper-wire",
         "nixpkgs": "nixpkgs",
+        "scout-wire": "scout-wire",
         "seam-check": "seam-check"
+      }
+    },
+    "scout-wire": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783200410,
+        "narHash": "sha256-0IQ4NJ486cWA8BAVkefibUNjidsUxlK9YWNHAsYAuAo=",
+        "owner": "bounded-systems",
+        "repo": "scout-wire",
+        "rev": "79bedb301ab4b2d19ce97cdfbc5122c964dc9913",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "scout-wire",
+        "type": "github"
       }
     },
     "seam-check": {

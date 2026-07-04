@@ -5,8 +5,18 @@
  * no imports — so the checks run offline inside a Nix derivation.
  */
 
+/**
+ * Strip `/* … *\/` block comments (incl. JSDoc) so example calls in docs — e.g.
+ * a `call(scout.guest, "fetch", …)` sample in a concierge client's header — are
+ * never mistaken for real wire dispatch.
+ */
+export function stripBlockComments(src: string): string {
+  return src.replace(/\/\*[\s\S]*?\*\//g, "");
+}
+
 /** Extract the keys of the `const METHODS ... = { ... }` object in a daemon's source. */
 export function parseDaemonMethods(src: string): string[] {
+  src = stripBlockComments(src);
   const m = src.match(/const\s+METHODS[^=]*=\s*\{([\s\S]*?)\}/);
   if (!m) return [];
   const keys: string[] = [];
@@ -18,7 +28,22 @@ export function parseDaemonMethods(src: string): string[] {
 
 /** Extract the wire method strings a client passes as the first arg to `request(...)`. */
 export function parseClientMethods(src: string): string[] {
+  src = stripBlockComments(src);
   const re = /request(?:<[^>]*>)?\(\s*"([^"]+)"/g;
+  const out = new Set<string>();
+  let hit: RegExpExecArray | null;
+  while ((hit = re.exec(src)) !== null) out.add(hit[1]);
+  return [...out];
+}
+
+/**
+ * Extract the wire methods a client passes as the SECOND arg to `call(...)` —
+ * `call(socket, "<method>", …)`. door-concierge's client dispatches this way
+ * (a peer-to-peer transport), unlike keeper/scout's `request("<method>", …)`.
+ */
+export function parseCallMethods(src: string): string[] {
+  src = stripBlockComments(src);
+  const re = /\bcall(?:<[^>]*>)?\(\s*[^,]+,\s*["']([^"']+)["']/g;
   const out = new Set<string>();
   let hit: RegExpExecArray | null;
   while ((hit = re.exec(src)) !== null) out.add(hit[1]);
@@ -73,10 +98,11 @@ export function conformMethods(
   want: readonly string[],
   daemonSrc: string,
   clientSrc: string,
+  clientMethods: (src: string) => string[] = parseClientMethods,
 ): Discrepancy[] {
   const wantSet = new Set(want);
   const daemon = new Set(parseDaemonMethods(daemonSrc));
-  const client = new Set(parseClientMethods(clientSrc));
+  const client = new Set(clientMethods(clientSrc));
   const out: Discrepancy[] = [];
   for (const m of wantSet) {
     if (!daemon.has(m)) {

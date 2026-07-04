@@ -1,0 +1,10 @@
+{
+  "node": "concierge-wire",
+  "visibility": "public",
+  "role": "contract-only",
+  "domain": "capability-resolution-agreement",
+  "provides": [
+    { "type": "concierge-wire", "kind": "wire", "spec": { "flakeInput": "concierge-wire" } }
+  ],
+  "consumes": []
+}

@@ -22,10 +22,22 @@
       url = "github:bounded-systems/door-scout";
       flake = false;
     };
-    # the keeper-wire AGREEMENT, extracted to its own contract-only repo so
-    # neither door-keeper nor door-kit owns it (breaks the cycle).
+    door-concierge = {
+      url = "github:bounded-systems/door-concierge";
+      flake = false;
+    };
+    # the wire AGREEMENTS, each extracted to its own contract-only repo so
+    # neither daemon nor door-kit owns it (breaks each pair's cycle).
     keeper-wire = {
       url = "github:bounded-systems/keeper-wire";
+      flake = false;
+    };
+    scout-wire = {
+      url = "github:bounded-systems/scout-wire";
+      flake = false;
+    };
+    concierge-wire = {
+      url = "github:bounded-systems/concierge-wire";
       flake = false;
     };
     # seam-check is pinned as source (not consumed as a flake) and its pure
@@ -43,8 +55,8 @@
   };
 
   outputs =
-    { self, nixpkgs, door-keeper, door-kit, door-scout, keeper-wire, seam-check
-    , fs }:
+    { self, nixpkgs, door-keeper, door-kit, door-scout, door-concierge
+    , keeper-wire, scout-wire, concierge-wire, seam-check, fs }:
     let
       # Linux for real CI runners AND darwin so a maintainer can `nix flake
       # check` locally — the previous per-repo *-mirror checks were
@@ -87,8 +99,26 @@
           export HOME=$TMPDIR
           cd ${self}
           deno run --no-remote --allow-read check/scout-wire.ts \
+            ${scout-wire}/manifest.json \
             ${door-scout}/scoutd.ts \
             ${door-kit}/lib/scout.ts
+          touch $out
+        '';
+
+        # concierge-wire: same wire-kind check for concierged (door-concierge) +
+        # its client (door-kit's concierge.ts). The agreement lives in its own
+        # contract-only repo; the client dispatches via call(sock, "method", …),
+        # which the check handles (parseCallMethods).
+        concierge-wire = pkgs.runCommand "trellis-concierge-wire" {
+          nativeBuildInputs = [ pkgs.deno ];
+          DENO_DIR = "/tmp/deno";
+        } ''
+          export HOME=$TMPDIR
+          cd ${self}
+          deno run --no-remote --allow-read check/concierge-wire.ts \
+            ${concierge-wire}/manifest.json \
+            ${door-concierge}/concierged.ts \
+            ${door-kit}/lib/concierge.ts
           touch $out
         '';
 
@@ -147,21 +177,9 @@
         '';
       });
 
-      # `nix run .#sync-manifest` — regenerate specs/keeper-wire.json from the
-      # VerbSpec source (specs/keeperd.ts). Kept as an app, not a build step, so
-      # the projection stays explicit; a stale manifest is caught by the mirror
-      # check below.
-      apps = forAll (pkgs: {
-        sync-manifest = {
-          type = "app";
-          meta.description =
-            "Regenerate specs/keeper-wire.json from the VerbSpec source.";
-          program = "${pkgs.writeShellScript "sync-manifest" ''
-            cd "$PWD"
-            ${pkgs.deno}/bin/deno run --allow-read --allow-write gen.ts
-          ''}";
-        };
-      });
+      # Each wire agreement now lives in its own contract-only repo, which
+      # generates its own manifest.json — trellis pins those repos and reads
+      # their manifests, so there is no longer an in-repo projection to sync.
 
       formatter = forAll (pkgs: pkgs.nixpkgs-fmt);
     };
