@@ -5,6 +5,11 @@
   "domain": "org-planning",
   "provides": [],
   "consumes": [
-    { "type": "front-desk-projects" }
+    {
+      "type": "front-desk-projects"
+    },
+    {
+      "type": "oidc-app-token-broker"
+    }
   ]
 }

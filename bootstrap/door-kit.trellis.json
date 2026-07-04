@@ -7,13 +7,26 @@
     {
       "type": "door-kit-mirror",
       "kind": "vendored-pin",
-      "spec": { "flakeInput": "door-kit" }
+      "spec": {
+        "flakeInput": "door-kit"
+      }
     }
   ],
   "consumes": [
-    { "type": "keeper-wire" },
-    { "type": "scout-wire" },
-    { "type": "concierge-wire" },
-    { "type": "guest-room-protocol" }
+    {
+      "type": "keeper-wire"
+    },
+    {
+      "type": "scout-wire"
+    },
+    {
+      "type": "concierge-wire"
+    },
+    {
+      "type": "guest-room-protocol"
+    },
+    {
+      "type": "seam-check-lib"
+    }
   ]
 }

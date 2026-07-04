@@ -177,6 +177,25 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "trellis's cosign-signed status.json (the lattice projection) — consumed by the Trust Center + the bounded.tools /contracts page.",
   },
+  {
+    type: "seam-check-lib",
+    kind: "import-boundary",
+    spec: { jsrSchema: "@bounded-systems/seam-check" },
+    verified: false,
+    summary:
+      "seam-check's published seam-assertion library — repos devDep it to enforce their own import boundary in tests (door-kit, fs).",
+  },
+  {
+    type: "oidc-app-token-broker",
+    kind: "external-platform",
+    spec: {
+      external:
+        "https://github.com/bounded-systems/cf-oidc-token-broker#readme",
+    },
+    verified: false,
+    summary:
+      "cf-oidc-token-broker mints GitHub App installation tokens over Actions OIDC (the App key lives only in the broker) — consumed by gh-project-room's front-desk-sync.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */
