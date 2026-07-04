@@ -32,6 +32,22 @@
         "type": "github"
       }
     },
+    "door-scout": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782825323,
+        "narHash": "sha256-kXmaQv1u1PsWKY4ETPi5yEbXIUVBOtV+krApHncWtp8=",
+        "owner": "bounded-systems",
+        "repo": "door-scout",
+        "rev": "2b047ecad768092e7f4de0c545f6b21be775c9f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "door-scout",
+        "type": "github"
+      }
+    },
     "fs": {
       "flake": false,
       "locked": {
@@ -68,6 +84,7 @@
       "inputs": {
         "door-keeper": "door-keeper",
         "door-kit": "door-kit",
+        "door-scout": "door-scout",
         "fs": "fs",
         "nixpkgs": "nixpkgs",
         "seam-check": "seam-check"

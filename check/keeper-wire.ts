@@ -22,6 +22,17 @@
  * non-zero exit is what a `nix flake check` / CI turns red on.
  */
 
+import {
+  conformMethods,
+  type Discrepancy,
+  parseClientMethods,
+  parseClientParams,
+} from "./parse.ts";
+
+// Re-exported so existing importers (trellis_test.ts) keep resolving them here.
+export { parseClientMethods, parseDaemonMethods } from "./parse.ts";
+export type { Discrepancy };
+
 interface WireManifest {
   type: string;
   methods: string[];
@@ -34,62 +45,6 @@ const MANIFEST: WireManifest = JSON.parse(
   ),
 );
 
-/** Extract the keys of the `const METHODS ... = { ... }` object in keeperd source. */
-export function parseDaemonMethods(src: string): string[] {
-  const m = src.match(/const\s+METHODS[^=]*=\s*\{([\s\S]*?)\}/);
-  if (!m) return [];
-  const body = m[1];
-  const keys: string[] = [];
-  const re = /(?:^|,)\s*(?:"([^"]+)"|([A-Za-z_][\w-]*))\s*:/g;
-  let hit: RegExpExecArray | null;
-  while ((hit = re.exec(body)) !== null) keys.push(hit[1] ?? hit[2]);
-  return keys;
-}
-
-/** Extract the wire method strings the client passes as the first arg to `request(...)`. */
-export function parseClientMethods(src: string): string[] {
-  const re = /request(?:<[^>]*>)?\(\s*"([^"]+)"/g;
-  const out = new Set<string>();
-  let hit: RegExpExecArray | null;
-  while ((hit = re.exec(src)) !== null) out.add(hit[1]);
-  return [...out];
-}
-
-/**
- * Extract the param keys the client sends for a given wire method — the object
- * literal in `request<...>("<method>", { k: v, ... })`. Best-effort: reads the
- * top-level keys of that object literal.
- */
-export function parseClientParams(src: string, method: string): string[] {
-  const start = src.search(
-    new RegExp(
-      `request(?:<[^>]*>)?\\(\\s*"${
-        method.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
-      }"\\s*,\\s*\\{`,
-    ),
-  );
-  if (start < 0) return [];
-  const braceStart = src.indexOf("{", start);
-  let depth = 0;
-  let end = braceStart;
-  for (let i = braceStart; i < src.length; i++) {
-    if (src[i] === "{") depth++;
-    else if (src[i] === "}") {
-      depth--;
-      if (depth === 0) {
-        end = i;
-        break;
-      }
-    }
-  }
-  const body = src.slice(braceStart + 1, end);
-  const keys: string[] = [];
-  const re = /(?:^|,|\{)\s*([A-Za-z_][\w]*)\s*:/g;
-  let hit: RegExpExecArray | null;
-  while ((hit = re.exec(body)) !== null) keys.push(hit[1]);
-  return keys;
-}
-
 /** The spec's canonical wire method set (from the projected manifest). */
 export function specMethods(): string[] {
   return MANIFEST.methods;
@@ -100,40 +55,15 @@ export function specParams(method: string): string[] {
   return MANIFEST.params[method] ?? [];
 }
 
-export interface Discrepancy {
-  readonly side: "daemon" | "client";
-  readonly kind: "missing-method" | "extra-method" | "param-drift";
-  readonly detail: string;
-}
-
 /** Compare daemon + client sources against the spec; return every discrepancy. */
 export function conform(daemonSrc: string, clientSrc: string): Discrepancy[] {
-  const want = new Set(specMethods());
-  const daemon = new Set(parseDaemonMethods(daemonSrc));
-  const client = new Set(parseClientMethods(clientSrc));
-  const out: Discrepancy[] = [];
-
-  for (const m of want) {
-    if (!daemon.has(m)) {
-      out.push({ side: "daemon", kind: "missing-method", detail: m });
-    }
-    if (!client.has(m)) {
-      out.push({ side: "client", kind: "missing-method", detail: m });
-    }
-  }
-  for (const m of daemon) {
-    if (!want.has(m)) {
-      out.push({ side: "daemon", kind: "extra-method", detail: m });
-    }
-  }
-  for (const m of client) {
-    if (!want.has(m)) {
-      out.push({ side: "client", kind: "extra-method", detail: m });
-    }
-  }
+  const out = conformMethods(specMethods(), daemonSrc, clientSrc);
 
   // Param-name conformance for import-and-push (the surveyed drift point).
-  if (want.has("import-and-push") && client.has("import-and-push")) {
+  const client = new Set(parseClientMethods(clientSrc));
+  if (
+    specMethods().includes("import-and-push") && client.has("import-and-push")
+  ) {
     const declared = new Set(specParams("import-and-push"));
     for (const k of parseClientParams(clientSrc, "import-and-push")) {
       if (!declared.has(k)) {
