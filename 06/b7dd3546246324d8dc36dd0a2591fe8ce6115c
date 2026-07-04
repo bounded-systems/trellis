@@ -1,0 +1,22 @@
+docs/public-private-contract.md
+  s_70508ca017cb29::t_5c7060105901e4 1-83
+README.md
+  s_70508ca017cb29::t_f73d582682aa26 68-70
+  s_70508ca017cb29::t_351473b842bdf3 4,43-47,49-52,71,75-83,119-120,129-130
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "06b7dd3546246324d8dc36dd0a2591fe8ce6115c",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
