@@ -101,6 +101,72 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "A 'one sanctioned reader' package upholding its own seam claim (allowed imports + no ambient authority) — a UNARY contract. Wired for fs; env/host/proc/repo-root next.",
   },
+  {
+    type: "jsr-library",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/*" },
+    verified: false,
+    summary:
+      "An extracted @bounded-systems/* library's published JSR surface — the typed contract prx consumes.",
+  },
+  {
+    type: "design-system-structure",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/baobab" },
+    verified: false,
+    summary:
+      "baobab's configurable design-system structure — the shape brand pins (no defaults).",
+  },
+  {
+    type: "brand-tokens",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/brand" },
+    verified: false,
+    summary:
+      "brand's W3C design tokens + self-hosted fonts — consumed by the sites, gated by gh-action-brand-checks.",
+  },
+  {
+    type: "component-a11y-spec",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/lone" },
+    verified: false,
+    summary:
+      "lone's semantic/a11y blessing for DOM subtrees — the component spec baobab points at.",
+  },
+  {
+    type: "mcp-tool-surface",
+    kind: "wire",
+    spec: { jsrSchema: "@bounded-systems/static-mcp" },
+    verified: false,
+    summary:
+      "static-mcp's Sigstore-verified static-response MCP surface — the base site-mcp/bounded-tools-mcp implement.",
+  },
+  {
+    type: "content-token-catalog",
+    kind: "repo-config",
+    spec: {
+      external: "https://github.com/bounded-systems/content-catalog#readme",
+    },
+    verified: false,
+    summary:
+      "The org-wide content-token catalog aggregated from opted-in repos' content/strings.json.",
+  },
+  {
+    type: "conformance-standard",
+    kind: "repo-config",
+    spec: { external: "https://github.com/bounded-systems/conformance#readme" },
+    verified: false,
+    summary:
+      "The org/repo conformance standard (rules + gates) repos are measured against.",
+  },
+  {
+    type: "signed-static-api",
+    kind: "provenance",
+    spec: { jsrSchema: "@bounded-systems/verify" },
+    verified: false,
+    summary:
+      "A site's signed, content-addressed static API — produced by the sites, verified by verify / the MCP servers.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */

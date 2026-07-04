@@ -40,6 +40,23 @@ export interface StatusType {
   readonly summary: string;
 }
 
+/**
+ * Every repo, as a build-derivation node. Its OUTPUT is non-negotiable — the
+ * `build` (every repo produces its build artifact) — plus any contracts it
+ * provides. Its INPUT is at least `self` (the repo's own source) plus any
+ * contracts it consumes. `mapped` is true once it has a cross-repo contract;
+ * an unmapped repo still has its build + self, it just isn't wired to others
+ * yet. (Deploy outputs + external deps are a planned extension.)
+ */
+export interface StatusNode {
+  readonly node: string;
+  /** Non-negotiable `build`, then any contract types this repo provides. */
+  readonly outputs: readonly string[];
+  /** `self`, then any contract types this repo consumes. */
+  readonly inputs: readonly string[];
+  readonly mapped: boolean;
+}
+
 export interface StatusReport {
   readonly summary: {
     readonly nodes: number;
@@ -48,10 +65,60 @@ export interface StatusReport {
     readonly verified: number;
     readonly passing: number;
     readonly failing: number;
+    /** Repos wired to at least one other repo by a contract. */
+    readonly mapped: number;
+    /** Repos with only their build + self — on the map, not yet wired to others. */
+    readonly unmapped: number;
+    /** The build DAG is acyclic (a cycle is a defect — break it with a contract-only repo). */
+    readonly acyclic: boolean;
   };
   readonly types: readonly StatusType[];
   readonly edges: readonly StatusEdge[];
+  /** EVERY repo on the map, not just the ones with edges. */
+  readonly nodes: readonly StatusNode[];
+  /** Dependency cycles (consumer → provider). Empty when the lattice is a DAG. */
+  readonly cycles: readonly (readonly string[])[];
   readonly unmatched: ReadonlyArray<{ node: string; type: string }>;
+}
+
+/**
+ * Find dependency cycles. A contract edge is provider→consumer, so the *build*
+ * dependency runs consumer→provider (a repo depends on the repos whose outputs
+ * it consumes). A cycle there means two repos build-depend on each other — a
+ * defect, broken by extracting the shared contract into its own repo. Returns
+ * each cycle as the repos on it (deduped by rotation).
+ */
+export function findCycles(
+  edges: ReadonlyArray<{ from: string; to: string }>,
+): string[][] {
+  const deps = new Map<string, string[]>(); // consumer → [providers it depends on]
+  for (const e of edges) {
+    if (e.from === e.to) continue; // self-edges never cycle
+    (deps.get(e.to) ?? deps.set(e.to, []).get(e.to)!).push(e.from);
+  }
+  const cycles: string[][] = [];
+  const seen = new Set<string>();
+  const stack: string[] = [];
+  const onStack = new Set<string>();
+  const visit = (n: string): void => {
+    if (onStack.has(n)) {
+      cycles.push(stack.slice(stack.indexOf(n)));
+      return;
+    }
+    if (seen.has(n)) return;
+    seen.add(n);
+    stack.push(n);
+    onStack.add(n);
+    for (const d of deps.get(n) ?? []) visit(d);
+    stack.pop();
+    onStack.delete(n);
+  };
+  for (const n of deps.keys()) visit(n);
+  // dedupe cycles that are rotations of each other
+  const canon = (c: string[]) => [...c].sort().join(">");
+  const uniq = new Map<string, string[]>();
+  for (const c of cycles) uniq.set(canon(c), c);
+  return [...uniq.values()];
 }
 
 /** The contract types that have a live check (CI must build one flake check each). */
@@ -104,18 +171,37 @@ export function projectStatus(
     summary: c.summary,
   }));
 
+  // EVERY repo as a build-derivation node: output is the non-negotiable `build`
+  // plus its provides; input is `self` plus its consumes.
+  const nodes: StatusNode[] = tree.nodes.map((n) => {
+    const provides = n.provides.map((p) => p.type);
+    const consumes = n.consumes.map((c) => c.type);
+    return {
+      node: n.node,
+      outputs: ["build", ...provides],
+      inputs: ["self", ...consumes],
+      mapped: provides.length + consumes.length > 0,
+    };
+  });
+
+  const cycles = findCycles(tree.edges);
   const verified = types.filter((t) => t.verified);
   return {
     summary: {
-      nodes: tree.nodes.length,
+      nodes: nodes.length,
       edges: tree.edges.length,
       types: types.length,
       verified: verified.length,
       passing: verified.filter((t) => t.result === "pass").length,
       failing: verified.filter((t) => t.result === "fail").length,
+      mapped: nodes.filter((n) => n.mapped).length,
+      unmapped: nodes.filter((n) => !n.mapped).length,
+      acyclic: cycles.length === 0,
     },
     types,
     edges,
+    nodes,
+    cycles,
     unmatched: unmatchedConsumes(decls),
   };
 }

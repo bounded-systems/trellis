@@ -8,61 +8,151 @@
   {
     "node": "anchored-chain",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "anchored-chain-sqlite",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "audit-context",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "auth",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "baobab",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "design-system-structure",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/baobab"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "bd",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "bounded-tools-mcp",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "mcp-tool-surface"
+      },
+      {
+        "type": "signed-static-api"
+      }
+    ]
   },
   {
     "node": "bounded.tools",
     "visibility": "public",
-    "provides": [],
-    "consumes": []
+    "provides": [
+      {
+        "type": "signed-static-api",
+        "kind": "provenance",
+        "spec": {
+          "jsrSchema": "@bounded-systems/verify"
+        }
+      }
+    ],
+    "consumes": [
+      {
+        "type": "brand-tokens"
+      }
+    ]
   },
   {
     "node": "brand",
     "visibility": "public",
-    "provides": [],
-    "consumes": []
+    "provides": [
+      {
+        "type": "brand-tokens",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/brand"
+        }
+      }
+    ],
+    "consumes": [
+      {
+        "type": "design-system-structure"
+      },
+      {
+        "type": "component-a11y-spec"
+      }
+    ]
   },
   {
     "node": "cas",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -86,19 +176,43 @@
   {
     "node": "conformance",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "conformance-standard",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/conformance#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "conformance-kit",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "conformance-standard",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/conformance#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "content-catalog",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "content-token-catalog",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/content-catalog#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -146,7 +260,15 @@
   {
     "node": "disposition",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -188,7 +310,15 @@
   {
     "node": "env",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -224,7 +354,15 @@
   {
     "node": "gh",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -254,7 +392,15 @@
   {
     "node": "git",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -266,7 +412,15 @@
   {
     "node": "github-budget",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -284,7 +438,15 @@
   {
     "node": "host",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -308,13 +470,29 @@
   {
     "node": "lone",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "component-a11y-spec",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/lone"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "machine-schema",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -332,25 +510,53 @@
   {
     "node": "policy",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "proc",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "prx",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "jsr-library"
+      }
+    ]
   },
   {
     "node": "repo-root",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -368,7 +574,15 @@
   {
     "node": "scout",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -380,25 +594,63 @@
   {
     "node": "site",
     "visibility": "public",
-    "provides": [],
-    "consumes": []
+    "provides": [
+      {
+        "type": "signed-static-api",
+        "kind": "provenance",
+        "spec": {
+          "jsrSchema": "@bounded-systems/verify"
+        }
+      }
+    ],
+    "consumes": [
+      {
+        "type": "brand-tokens"
+      },
+      {
+        "type": "conformance-standard"
+      }
+    ]
   },
   {
     "node": "site-mcp",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "mcp-tool-surface"
+      },
+      {
+        "type": "signed-static-api"
+      }
+    ]
   },
   {
     "node": "slack",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "static-mcp",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "mcp-tool-surface",
+        "kind": "wire",
+        "spec": {
+          "jsrSchema": "@bounded-systems/static-mcp"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -410,7 +662,15 @@
   {
     "node": "surface-sync",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -428,13 +688,25 @@
   {
     "node": "verbspec",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "jsr-library",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/*"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "verify",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "signed-static-api"
+      }
+    ]
   }
 ]
