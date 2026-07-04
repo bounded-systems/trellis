@@ -1,0 +1,25 @@
+bootstrap/catalog.json
+  s_70508ca017cb29::t_89ac09d6ea0b9a 1-440
+assemble.ts
+  s_70508ca017cb29::t_621a8363b18a6a 25-36,38-51,55-56,58-59
+flake.nix
+  s_70508ca017cb29::t_71207233aaeb0c 54-71
+registry.ts
+  s_70508ca017cb29::t_077afaf1f340cc 68,70
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "6e6749f04960069a830cead15707db5dfc80c9eb",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
