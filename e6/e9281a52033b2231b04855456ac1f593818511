@@ -1,0 +1,21 @@
+.gitignore
+  s_70508ca017cb29::t_20474794fa46d3 1
+LICENSE
+  s_70508ca017cb29::t_2943069b7a4596 1-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "e6e9281a52033b2231b04855456ac1f593818511",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
