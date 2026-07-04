@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # trellis's own quality gates — blocking. The map machinery must be correct.
+  deno:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: manifest is in sync with the VerbSpec source
+        run: |
+          deno task gen
+          git diff --exit-code specs/keeper-wire.json
+      - run: deno task check
+      - run: deno lint
+      - run: deno fmt --check
+      - run: deno task test
+
+  # The aggregating contract check — the "large flake derivation". Report-only
+  # for now: it is EXPECTED to fail until the keeper-wire drift it surfaces is
+  # fixed upstream (door-kit's import-and-push sends `ledgerRef`, not the
+  # `manifestDigest` keeperd reads). Flip `continue-on-error` off — making it a
+  # blocking gate — once the upstream fix lands and the inputs are re-pinned.
+  contract-check:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: nix flake check (contract conformance)
+        run: nix flake check --print-build-logs

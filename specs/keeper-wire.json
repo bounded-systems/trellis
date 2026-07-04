@@ -1,0 +1,56 @@
+{
+  "type": "keeper-wire",
+  "methods": [
+    "commit",
+    "push",
+    "import-and-push",
+    "attest-launch",
+    "sign",
+    "verify",
+    "status",
+    "getPublicKey"
+  ],
+  "params": {
+    "commit": [
+      "repo",
+      "message",
+      "author",
+      "files",
+      "all",
+      "amend",
+      "authorship"
+    ],
+    "push": [
+      "repo",
+      "remote",
+      "branch",
+      "force",
+      "setUpstream"
+    ],
+    "import-and-push": [
+      "repo",
+      "bundleBase64",
+      "commitSha",
+      "branch",
+      "remote",
+      "pushArgs",
+      "manifestDigest",
+      "notesRef",
+      "l2LaunchDigest"
+    ],
+    "attest-launch": [
+      "subject",
+      "manifest"
+    ],
+    "sign": [
+      "data"
+    ],
+    "verify": [
+      "data",
+      "signature",
+      "publicKey"
+    ],
+    "status": [],
+    "getPublicKey": []
+  }
+}

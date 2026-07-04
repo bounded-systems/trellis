@@ -1,0 +1,13 @@
+{
+  "node": "door-concierge",
+  "visibility": "public",
+  "role": "capability-door",
+  "domain": "capability-resolution",
+  "provides": [
+    { "type": "concierge-wire", "kind": "wire", "spec": { "verbspec": "./specs/concierged.ts" } }
+  ],
+  "consumes": [
+    { "type": "door-kit-mirror" },
+    { "type": "guest-room-protocol" }
+  ]
+}

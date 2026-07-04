@@ -1,0 +1,10 @@
+{
+  "node": "guest-room",
+  "visibility": "public",
+  "role": "room-door-runtime",
+  "domain": "capability-protocol",
+  "provides": [
+    { "type": "guest-room-protocol", "kind": "vendored-pin", "spec": { "flakeInput": "guest-room" } }
+  ],
+  "consumes": []
+}

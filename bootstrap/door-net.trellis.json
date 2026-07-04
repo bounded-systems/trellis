@@ -1,0 +1,12 @@
+{
+  "node": "door-net",
+  "visibility": "public",
+  "role": "capability-door",
+  "domain": "allowlist-egress",
+  "provides": [
+    { "type": "net-egress", "kind": "wire", "spec": { "external": "https://github.com/bounded-systems/door-net#readme" } }
+  ],
+  "consumes": [
+    { "type": "door-kit-mirror" }
+  ]
+}

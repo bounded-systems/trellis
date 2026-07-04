@@ -1,0 +1,14 @@
+{
+  "node": "door-scout",
+  "visibility": "public",
+  "role": "capability-door",
+  "domain": "external-read",
+  "provides": [
+    { "type": "scout-wire", "kind": "wire", "spec": { "verbspec": "./specs/scoutd.ts" } }
+  ],
+  "consumes": [
+    { "type": "door-kit-mirror" },
+    { "type": "guest-room-protocol" },
+    { "type": "net-egress" }
+  ]
+}

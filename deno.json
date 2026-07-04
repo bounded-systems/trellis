@@ -1,0 +1,47 @@
+{
+  "name": "@bounded-systems/trellis",
+  "version": "0.1.0",
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "exports": {
+    ".": "./schema.ts",
+    "./registry": "./registry.ts",
+    "./assemble": "./assemble.ts",
+    "./verbs": "./verbs.ts"
+  },
+  "imports": {
+    "zod": "npm:zod@^4.4.3",
+    "verbspec": "jsr:@bounded-systems/verbspec@^0.3.1",
+    "@std/assert": "jsr:@std/assert@^1"
+  },
+  "tasks": {
+    "check": "deno check schema.ts registry.ts assemble.ts verbs.ts gen.ts specs/keeperd.ts check/keeper-wire.ts",
+    "test": "deno test --allow-read",
+    "gen": "deno run --allow-read --allow-write gen.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "verbs": "deno run --allow-read verbs.ts"
+  },
+  "fmt": {
+    "include": ["*.ts", "specs/*.ts", "check/*.ts"],
+    "exclude": [".fixtures"]
+  },
+  "lint": {
+    "include": ["*.ts", "specs/*.ts", "check/*.ts"],
+    "exclude": [".fixtures"]
+  },
+  "publish": {
+    "include": [
+      "schema.ts",
+      "registry.ts",
+      "assemble.ts",
+      "verbs.ts",
+      "gen.ts",
+      "specs/keeperd.ts",
+      "specs/keeper-wire.json",
+      "check/keeper-wire.ts",
+      "bootstrap",
+      "LICENSE",
+      "README.md"
+    ]
+  }
+}
