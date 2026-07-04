@@ -18,9 +18,21 @@
       url = "github:bounded-systems/door-kit";
       flake = false;
     };
+    # seam-check is pinned as source (not consumed as a flake) and its pure
+    # `seam.ts` is imported directly — trellis WRAPS the published tool, it does
+    # not reimplement it.
+    seam-check = {
+      url = "github:bounded-systems/seam-check";
+      flake = false;
+    };
+    # a sanctioned-reader repo to check the seam claim against.
+    fs = {
+      url = "github:bounded-systems/fs";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, door-keeper, door-kit }:
+  outputs = { self, nixpkgs, door-keeper, door-kit, seam-check, fs }:
     let
       # Linux for real CI runners AND darwin so a maintainer can `nix flake
       # check` locally — the previous per-repo *-mirror checks were
@@ -69,6 +81,26 @@
           echo "door-kit-mirror: vendored copies are byte-identical to door-kit HEAD."
           touch $out
         '';
+
+        # sanctioned-reader-seam (import-boundary kind): a UNARY contract — a
+        # sanctioned-reader repo upholding its OWN seam claim (allowed imports +
+        # no ambient authority). Wraps the published @bounded-systems/seam-check
+        # (pinned; its pure seam.ts imported directly, offline). fs's claim is
+        # `node:fs`/`node:path` only — expected to PASS, giving a green edge
+        # alongside the two red drift edges.
+        sanctioned-reader-seam =
+          pkgs.runCommand "trellis-sanctioned-reader-seam" {
+            nativeBuildInputs = [ pkgs.deno ];
+            DENO_DIR = "/tmp/deno";
+          } ''
+            export HOME=$TMPDIR
+            cd ${self}
+            deno run --no-remote --allow-read check/sanctioned-reader-seam.ts \
+              ${seam-check}/src \
+              ${fs} \
+              fs
+            touch $out
+          '';
       });
 
       # `nix run .#sync-manifest` — regenerate specs/keeper-wire.json from the

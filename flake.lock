@@ -1,0 +1,95 @@
+{
+  "nodes": {
+    "door-keeper": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782825319,
+        "narHash": "sha256-OQMkjRdnonduLH1F1o7rv3lKGfEzGuFDQwluDDhpnWs=",
+        "owner": "bounded-systems",
+        "repo": "door-keeper",
+        "rev": "27d064f9b61831f4493ed61d47243d3278fd0e3a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "door-keeper",
+        "type": "github"
+      }
+    },
+    "door-kit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782825253,
+        "narHash": "sha256-SqCZrDJidxgRuY/ArpqPfeMUJ5QkUoeZ28M3U/pl7v0=",
+        "owner": "bounded-systems",
+        "repo": "door-kit",
+        "rev": "ff5cfc7ba8db80fe87fd3c66a2f21aba6c3afda6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "door-kit",
+        "type": "github"
+      }
+    },
+    "fs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782766789,
+        "narHash": "sha256-fmhHoQ8lLPAOMrhkbyqxKOXmm5QBVg4Hf0giPwrWoEM=",
+        "owner": "bounded-systems",
+        "repo": "fs",
+        "rev": "114c10df868d0a79a03d13726129d80e2fe01278",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "fs",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1782959384,
+        "narHash": "sha256-xnJJk+ct+D2+wdRxj1wk36w5zV9RVESwRqcklPdt3fM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "65179426c83bb3f6bc14898b42ea1c6f01d374b0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "door-keeper": "door-keeper",
+        "door-kit": "door-kit",
+        "fs": "fs",
+        "nixpkgs": "nixpkgs",
+        "seam-check": "seam-check"
+      }
+    },
+    "seam-check": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782766736,
+        "narHash": "sha256-IoNcQLyxJHt7V7j2rWL89sib4L4HFQJoCkXGPhorC2Q=",
+        "owner": "bounded-systems",
+        "repo": "seam-check",
+        "rev": "76f11c1ade0220acc04355dd335eb64b5d443fcb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bounded-systems",
+        "repo": "seam-check",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

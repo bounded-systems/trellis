@@ -159,25 +159,32 @@ const VerifyOutput = z.object({
   known: z.boolean(),
   verified: z.boolean(),
   edges: z.number(),
+  providers: z.number(),
   note: z.string(),
 });
 const verifyVerb: VerbSpec<typeof VerifyInput, typeof VerifyOutput> =
   defineVerb({
     id: "verify",
     summary:
-      "Report whether a contract type has a live check and how many edges it governs.",
+      "Report whether a contract type has a live check, its edges, and its providers.",
     actor: "trellis",
     input: VerifyInput,
     output: VerifyOutput,
     run: async ({ type }: { type: string }) => {
       const reg = CONTRACT_TYPES.find((c) => c.type === type);
-      const { edges } = await tree();
+      const { nodes, edges } = await tree();
       const n = edges.filter((e) => e.type === type).length;
+      // Providers matter for UNARY contracts (import-boundary): a package
+      // upholding its own claim has providers but no provider→consumer edge.
+      const providers = nodes.filter((nd) =>
+        nd.provides.some((p) => p.type === type)
+      ).length;
       return {
         type,
         known: Boolean(reg),
         verified: reg?.verified ?? false,
         edges: n,
+        providers,
         note: !reg
           ? "unknown type"
           : reg.verified
