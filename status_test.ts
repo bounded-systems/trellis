@@ -1,6 +1,11 @@
 import { assertEquals } from "@std/assert";
 import { loadDecls } from "./assemble.ts";
-import { findCycles, projectStatus, verifiedTypes } from "./status.ts";
+import {
+  findCycles,
+  findMultiContractPairs,
+  projectStatus,
+  verifiedTypes,
+} from "./status.ts";
 
 const BOOTSTRAP = new URL("./bootstrap", import.meta.url).pathname;
 
@@ -81,5 +86,22 @@ Deno.test("findCycles returns none for a DAG", () => {
   assertEquals(
     findCycles([{ from: "a", to: "b" }, { from: "b", to: "c" }]),
     [],
+  );
+});
+
+Deno.test("status surfaces the one-agreement-per-pair invariant", async () => {
+  const decls = await loadDecls(BOOTSTRAP);
+  const report = projectStatus(decls, {});
+  // the real door family violates it (a wire contract + door-kit-mirror per pair)
+  assertEquals(
+    report.summary.oneAgreementPerPair,
+    report.multiContractPairs.length === 0,
+  );
+  assertEquals(
+    findMultiContractPairs([
+      { from: "a", to: "b", type: "x" },
+      { from: "b", to: "a", type: "y" },
+    ]).length,
+    1,
   );
 });

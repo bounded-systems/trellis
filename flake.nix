@@ -121,6 +121,22 @@
               fs
             touch $out
           '';
+
+        # lattice: the kit's structural invariants over trellis's OWN map — one
+        # agreement per node pair, and a build DAG (no cycles). A META check (no
+        # pinned inputs). RED by design: the door family holds two agreements per
+        # pair (a wire contract + door-kit-mirror vendoring) which is also the
+        # cycle. Report-only until the wire specs are extracted into contract-only
+        # repos — the one move that fixes both.
+        lattice = pkgs.runCommand "trellis-lattice" {
+          nativeBuildInputs = [ pkgs.deno ];
+          DENO_DIR = "/tmp/deno";
+        } ''
+          export HOME=$TMPDIR
+          cd ${self}
+          deno run --no-remote --allow-read check/lattice.ts
+          touch $out
+        '';
       });
 
       # `nix run .#sync-manifest` — regenerate specs/keeper-wire.json from the
