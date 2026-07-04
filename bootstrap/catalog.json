@@ -676,14 +676,36 @@
   {
     "node": "trellis",
     "visibility": "public",
-    "provides": [],
-    "consumes": []
+    "provides": [
+      {
+        "type": "contract-lattice-projection",
+        "kind": "provenance",
+        "spec": {
+          "external": "https://github.com/bounded-systems/trellis#status-branch"
+        }
+      }
+    ],
+    "consumes": [
+      {
+        "type": "keeper-wire"
+      },
+      {
+        "type": "scout-wire"
+      },
+      {
+        "type": "concierge-wire"
+      }
+    ]
   },
   {
     "node": "trust",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "contract-lattice-projection"
+      }
+    ]
   },
   {
     "node": "verbspec",

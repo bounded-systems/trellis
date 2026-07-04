@@ -167,6 +167,16 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "A site's signed, content-addressed static API — produced by the sites, verified by verify / the MCP servers.",
   },
+  {
+    type: "contract-lattice-projection",
+    kind: "provenance",
+    spec: {
+      external: "https://github.com/bounded-systems/trellis#status-branch",
+    },
+    verified: false,
+    summary:
+      "trellis's cosign-signed status.json (the lattice projection) — consumed by the Trust Center + the bounded.tools /contracts page.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */
