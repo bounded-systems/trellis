@@ -1,0 +1,59 @@
+assemble.ts
+  s_70508ca017cb29::t_8a0e4b63d7b0da 1-107
+bootstrap/claude-box.trellis.json
+  s_70508ca017cb29::t_6a15c416d0fb17 1-14
+bootstrap/door-concierge.trellis.json
+  s_70508ca017cb29::t_172329ab9bece6 1-13
+bootstrap/door-keeper.trellis.json
+  s_e0a4e094afcd00::t_74662adbbe44dc 1-18
+bootstrap/door-kit.trellis.json
+  s_e0a4e094afcd00::t_22c5b74b1a0261 1-19
+bootstrap/door-net.trellis.json
+  s_70508ca017cb29::t_ecc8d18413747e 1-12
+bootstrap/door-scout.trellis.json
+  s_70508ca017cb29::t_8a31e22bf7acd9 1-14
+bootstrap/gh-project-room.trellis.json
+  s_70508ca017cb29::t_98b331572dceaa 1-10
+bootstrap/guest-room.trellis.json
+  s_70508ca017cb29::t_206466bb71f5d3 1-10
+bootstrap/ocap-provenance.trellis.json
+  s_70508ca017cb29::t_2dbed48cc566aa 1-10
+check/keeper-wire.ts
+  s_70508ca017cb29::t_91a2b2a3771b80 1-176
+deno.lock
+  s_70508ca017cb29::t_9f1db413aad3da 1-38
+registry.ts
+  s_70508ca017cb29::t_3387b10cd977b3 1-109
+schema.ts
+  s_e0a4e094afcd00::t_5690d8caec66c9 1-168
+specs/keeper-wire.json
+  s_70508ca017cb29::t_7b188d2cab6d39 1-56
+specs/keeperd.ts
+  s_70508ca017cb29::t_726961769147c8 1-247
+verbs.ts
+  s_70508ca017cb29::t_17c4995e2ee176 1-205
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "c3f84918037ac5023db533fb6781f49d3c5cc5c0",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    },
+    "s_e0a4e094afcd00": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "db755f05-3e88-41a1-9828-4de18be948b3",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
