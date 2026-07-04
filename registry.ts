@@ -40,7 +40,7 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
   {
     type: "scout-wire",
     kind: "wire",
-    spec: { verbspec: "./specs/scoutd.ts" },
+    spec: { flakeInput: "scout-wire" },
     verified: true,
     summary:
       "scoutd's external-read RPC surface (repo/pr/issue/fetch/download/status).",
@@ -48,8 +48,8 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
   {
     type: "concierge-wire",
     kind: "wire",
-    spec: { verbspec: "./specs/concierged.ts" },
-    verified: false,
+    spec: { flakeInput: "concierge-wire" },
+    verified: true,
     summary:
       "concierged's capability-resolution RPC surface (register/resolve/keys/list/status).",
   },

@@ -1,0 +1,10 @@
+{
+  "node": "scout-wire",
+  "visibility": "public",
+  "role": "contract-only",
+  "domain": "external-read-agreement",
+  "provides": [
+    { "type": "scout-wire", "kind": "wire", "spec": { "flakeInput": "scout-wire" } }
+  ],
+  "consumes": []
+}
