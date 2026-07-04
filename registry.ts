@@ -97,9 +97,9 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     type: "sanctioned-reader-seam",
     kind: "import-boundary",
     spec: { jsrSchema: "@bounded-systems/seam-check" },
-    verified: false,
+    verified: true,
     summary:
-      "The 'one sanctioned reader' seam claim (env/host/fs/proc/repo-root) — allowed imports + no ambient authority.",
+      "A 'one sanctioned reader' package upholding its own seam claim (allowed imports + no ambient authority) — a UNARY contract. Wired for fs; env/host/proc/repo-root next.",
   },
 ] as const;
 

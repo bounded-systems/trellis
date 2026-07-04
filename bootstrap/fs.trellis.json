@@ -1,0 +1,14 @@
+{
+  "node": "fs",
+  "visibility": "public",
+  "role": "capability-seam",
+  "domain": "filesystem",
+  "provides": [
+    {
+      "type": "sanctioned-reader-seam",
+      "kind": "import-boundary",
+      "spec": { "jsrSchema": "@bounded-systems/seam-check" }
+    }
+  ],
+  "consumes": []
+}

@@ -130,10 +130,27 @@ stale (the same drift as the door-keeper issue), catching it from the
 pin-freshness angle rather than the wire angle. Generalizes the per-repo
 `*-mirror` checks that existed but never ran in CI.
 
+## A third live edge: `sanctioned-reader-seam` (a unary contract, and green)
+
+`checks.<system>.sanctioned-reader-seam` **wraps the published
+`@bounded-systems/seam-check`** — pinned as a flake input, its pure `seam.ts`
+imported directly and run offline (no reimplementation, no JSR network). It
+proves a **unary** contract: a "one sanctioned reader" package upholding its own
+seam claim (allowed imports + no ambient authority) — no counterparty, so it's a
+node invariant, not a provider→consumer edge. `specs/seams.json` holds each
+claim; `fs`'s is `node:fs`/`node:path` only, and it **passes** — the first green
+verified edge, proving the checks aren't always-red. `env`/`host`/`proc`/
+`repo-root` are the next providers.
+
+So contracts come in two shapes: **relational** (wire, vendored-pin —
+provider↔consumer edges) and **unary** (import-boundary — a node upholding its
+own invariant). trellis models both.
+
 ## Status
 
-Two types are `verified` (live checks): `keeper-wire` (wire) and
-`door-kit-mirror` (vendored-pin). Every other type is `declared` — mapped and
+Three types are `verified` (live checks): `keeper-wire` (wire, red — drift),
+`door-kit-mirror` (vendored-pin, red — drift), and `sanctioned-reader-seam`
+(import-boundary, green — conforms). Every other type is `declared` — mapped and
 honest that no check enforces it yet. Every public repo is a node; edges grow
 one leaf check at a time (one flake input + one `checks.*` entry).
 

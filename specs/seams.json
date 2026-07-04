@@ -1,0 +1,7 @@
+{
+  "_note": "Seam claims for the sanctioned-reader repos — the import-boundary contract. Each repo's `prod` allowlist IS its claim: the specifiers its production code may import; anything else, or holding banned ambient authority (subprocess spawn, process.env), is a violation. checked by @bounded-systems/seam-check via check/sanctioned-reader-seam.ts. `test` widens the allowlist for test files.",
+  "fs": {
+    "prod": ["node:fs", "node:path"],
+    "test": ["@bounded-systems/fs", "@bounded-systems/seam-check"]
+  }
+}
