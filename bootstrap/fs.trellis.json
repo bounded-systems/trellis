@@ -7,7 +7,16 @@
     {
       "type": "sanctioned-reader-seam",
       "kind": "import-boundary",
-      "spec": { "jsrSchema": "@bounded-systems/seam-check" }
+      "spec": {
+        "jsrSchema": "@bounded-systems/seam-check"
+      }
+    },
+    {
+      "type": "jsr-library",
+      "kind": "shared-schema",
+      "spec": {
+        "jsrSchema": "@bounded-systems/*"
+      }
     }
   ],
   "consumes": []
