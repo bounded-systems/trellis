@@ -1,0 +1,44 @@
+check/scout-wire.ts
+  s_70508ca017cb29::t_73d6b84e9286d7 3-7,9-10,12,23-27,30-32,35,38
+flake.nix
+  s_70508ca017cb29::t_da5eee1dbe6f04 58-59
+  s_70508ca017cb29::t_0482385966341f 25-30,35-42
+  s_70508ca017cb29::t_034ad8db608940 180-182
+  s_70508ca017cb29::t_e28fcd4f70084a 102,108-121
+  s_70508ca017cb29::t_a0977f91d27f25 122-124
+check/concierge-wire.ts
+  s_70508ca017cb29::t_f08cbb82c62e29 1-55
+check/parse.ts
+  s_70508ca017cb29::t_214294ce2f9f73 89,93
+  s_70508ca017cb29::t_fe56b324db70bf 29-40
+  s_70508ca017cb29::t_b509eb79ca15fe 28
+registry.ts
+  s_70508ca017cb29::t_8a7d56410f4a92 43,51-52
+deno.json
+  s_70508ca017cb29::t_2ac010361df860 45
+  s_70508ca017cb29::t_b42a75597c7400 19
+bootstrap/concierge-wire.trellis.json
+  s_70508ca017cb29::t_5b884edb0b8b58 2-7,9
+bootstrap/door-concierge.trellis.json
+  s_70508ca017cb29::t_e95113af410356 6,8
+bootstrap/door-scout.trellis.json
+  s_70508ca017cb29::t_56f51acd8cef12 6,8
+bootstrap/scout-wire.trellis.json
+  s_70508ca017cb29::t_d0404e4ab4d35c 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "adc00cfea2be5415f7544b3f48b60979f3c3b18c",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
