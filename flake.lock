@@ -35,11 +35,11 @@
     "door-keeper": {
       "flake": false,
       "locked": {
-        "lastModified": 1782825319,
-        "narHash": "sha256-OQMkjRdnonduLH1F1o7rv3lKGfEzGuFDQwluDDhpnWs=",
+        "lastModified": 1783206080,
+        "narHash": "sha256-Kl0tXt02Es40XEjtocvNtqMscIfnSOs9IHHvb1Tg9WE=",
         "owner": "bounded-systems",
         "repo": "door-keeper",
-        "rev": "27d064f9b61831f4493ed61d47243d3278fd0e3a",
+        "rev": "cd370daaaf753395751ea99d2df5947bf819f0bd",
         "type": "github"
       },
       "original": {
