@@ -51,6 +51,9 @@ export function conform(
   ) {
     const declared = new Set(manifest.params["import-and-push"] ?? []);
     for (const k of parseClientParams(clientSrc, "import-and-push")) {
+      // `kind` is the request-envelope discriminator (the method selector in the
+      // payload), not a verb param — every door-kit request carries it.
+      if (k === "kind") continue;
       if (!declared.has(k)) {
         out.push({
           side: "client",

@@ -34,7 +34,7 @@ const KEEPER_MANIFEST: WireManifest = {
       "branch",
       "remote",
       "pushArgs",
-      "manifestDigest",
+      "ledgerRef",
       "notesRef",
       "l2LaunchDigest",
     ],
@@ -131,7 +131,7 @@ Deno.test("conform() catches a missing method (stale mirror)", () => {
   );
 });
 
-Deno.test("conform() catches ledgerRef param drift", () => {
+Deno.test("conform() accepts declared params (incl. ledgerRef) + the kind discriminator, flags the undeclared", () => {
   const daemon = `const METHODS: Record<string, MethodHandler> = {
     status: h, commit: h, push: h, "import-and-push": h, "attest-launch": h,
     sign: h, verify: h, getPublicKey: h,
@@ -139,7 +139,7 @@ Deno.test("conform() catches ledgerRef param drift", () => {
   const client = `
     export async function commit(){ return request<C>("commit", { repo: r }); }
     export async function push(){ return request<P>("push", { repo: r }); }
-    export async function importAndPush(){ return request<I>("import-and-push", { repo: r, bundleBase64: b, commitSha: c, branch: br, remote: rm, ledgerRef: lr }); }
+    export async function importAndPush(){ return request<I>("import-and-push", { kind: "import-and-push", repo: r, bundleBase64: b, commitSha: c, branch: br, remote: rm, ledgerRef: lr, bogusField: x }); }
     export async function attestLaunch(){ return request<A>("attest-launch", { subject: s, manifest: m }); }
     export async function signData(){ return request<S>("sign", { data: d }); }
     export async function verifySignature(){ return request<V>("verify", { data: d, signature: s }); }
@@ -147,15 +147,15 @@ Deno.test("conform() catches ledgerRef param drift", () => {
     export async function getPublicKey(){ return request<K>("getPublicKey"); }
   `;
   const d = conform(KEEPER_MANIFEST, daemon, client);
+  // ledgerRef is now a declared param → not drift; `kind` is the envelope
+  // discriminator → skipped; only the genuinely-undeclared bogusField is flagged.
+  assertEquals(d.some((x) => x.detail.includes("ledgerRef")), false);
+  assertEquals(d.some((x) => x.detail.includes('"kind"')), false);
   assertEquals(
-    d.some((x) => x.kind === "param-drift" && x.detail.includes("ledgerRef")),
+    d.some((x) => x.kind === "param-drift" && x.detail.includes("bogusField")),
     true,
   );
-  assertEquals(
-    d.some((x) => x.kind === "missing-method"),
-    false,
-    "no missing methods when all present",
-  );
+  assertEquals(d.some((x) => x.kind === "missing-method"), false);
 });
 
 Deno.test("parsers extract the expected sets", () => {
