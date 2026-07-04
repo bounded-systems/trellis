@@ -99,11 +99,11 @@
     "keeper-wire": {
       "flake": false,
       "locked": {
-        "lastModified": 1783199545,
-        "narHash": "sha256-wDQsLLD5/xoE4xXNiZkM5KCl+0VutO6bAb4T75naF4s=",
+        "lastModified": 1783205341,
+        "narHash": "sha256-d+EQKN6gaWhh7p0Nj7KjV3II3oVna7v3scS/Sc6lGAg=",
         "owner": "bounded-systems",
         "repo": "keeper-wire",
-        "rev": "a2c0e504e6a8e82529c4c3d38b9f8f25a7fec4d5",
+        "rev": "bc594369d66e810a185a80bb78fcaf3c0d2aadcc",
         "type": "github"
       },
       "original": {
