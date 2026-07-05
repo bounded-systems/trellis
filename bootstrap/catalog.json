@@ -2,7 +2,15 @@
   {
     "node": ".github",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "org-defaults",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/.github#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -178,7 +186,15 @@
   {
     "node": "claude-token-tools",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "token-audit-toolkit",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/claude-token-tools"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -226,7 +242,15 @@
   {
     "node": "deploy",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "dns-as-code",
+        "kind": "external-platform",
+        "spec": {
+          "external": "https://github.com/bounded-systems/deploy#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -250,7 +274,15 @@
   {
     "node": "dev-registry",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "oci-dev-registry",
+        "kind": "external-platform",
+        "spec": {
+          "external": "https://github.com/bounded-systems/dev-registry#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -294,7 +326,15 @@
   {
     "node": "door-peercred",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "peercred-helper",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/door-peercred"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -320,7 +360,15 @@
   {
     "node": "facilities",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "nix-facilities",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/facilities#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -342,13 +390,29 @@
   {
     "node": "fold-engine",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "linked-data-structure",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/fold-engine"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "frond",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "roundtrip-validation",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/frond"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -436,7 +500,15 @@
   {
     "node": "git-ast",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "ast-git-spec",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/git-ast"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -462,7 +534,15 @@
   {
     "node": "hooksmith",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "wasm-hook-builder",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/hooksmith#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -495,13 +575,29 @@
   {
     "node": "lima-devshell",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "lima-devshell-config",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/lima-devshell#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
     "node": "lobby",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "vault-content",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/lobby#readme"
+        }
+      }
+    ],
     "consumes": []
   },
   {
@@ -607,7 +703,15 @@
   {
     "node": "schema-bridge",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "schema-transform",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/schema-bridge"
+        }
+      }
+    ],
     "consumes": []
   },
   {
