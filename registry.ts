@@ -212,6 +212,46 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "verbspec (defineVerb/dispatch + one Zod I/O per verb, projected to CLI/MCP/OpenAPI) — the framework the wire agreements, installer, string-audit et al. import.",
   },
+  {
+    type: "node-uniqueness-check",
+    kind: "repo-config",
+    spec: {
+      external:
+        "https://github.com/bounded-systems/gh-action-node-uniqueness#readme",
+    },
+    verified: false,
+    summary:
+      "gh-action-node-uniqueness — CI gate asserting node/dep uniqueness; run by fleet.",
+  },
+  {
+    type: "brand-check",
+    kind: "repo-config",
+    spec: {
+      external:
+        "https://github.com/bounded-systems/gh-action-brand-checks#readme",
+    },
+    verified: false,
+    summary:
+      "gh-action-brand-checks — CI gate for brand-token compliance; run by fleet.",
+  },
+  {
+    type: "contracts-check",
+    kind: "repo-config",
+    spec: {
+      external: "https://github.com/bounded-systems/gh-action-contracts#readme",
+    },
+    verified: false,
+    summary:
+      "gh-action-contracts — CI gate for contract conformance; run by fleet.",
+  },
+  {
+    type: "deterministic-release",
+    kind: "repo-config",
+    spec: { jsrSchema: "@bounded-systems/mint" },
+    verified: false,
+    summary:
+      "mint — deterministic, signed releases from .release/ intent files (bumps deno.json/jsr.json/package.json). Adopted by dev-contracts.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */
