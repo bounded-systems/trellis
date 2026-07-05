@@ -244,30 +244,6 @@
     "consumes": []
   },
   {
-    "node": "dev-contracts-extract",
-    "visibility": "public",
-    "provides": [],
-    "consumes": []
-  },
-  {
-    "node": "dev-contracts-spec",
-    "visibility": "public",
-    "provides": [],
-    "consumes": []
-  },
-  {
-    "node": "dev-contracts-transform",
-    "visibility": "public",
-    "provides": [],
-    "consumes": []
-  },
-  {
-    "node": "dev-contracts-validate",
-    "visibility": "public",
-    "provides": [],
-    "consumes": []
-  },
-  {
     "node": "dev-registry",
     "visibility": "public",
     "provides": [],
