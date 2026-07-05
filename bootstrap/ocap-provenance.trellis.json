@@ -4,7 +4,17 @@
   "role": "shared-contract",
   "domain": "provenance",
   "provides": [
-    { "type": "ocap-provenance-predicate", "kind": "shared-schema", "spec": { "jsrSchema": "@bounded-systems/ocap-provenance" } }
+    {
+      "type": "ocap-provenance-predicate",
+      "kind": "shared-schema",
+      "spec": {
+        "jsrSchema": "@bounded-systems/ocap-provenance"
+      }
+    }
   ],
-  "consumes": []
+  "consumes": [
+    {
+      "type": "org-quality-standard"
+    }
+  ]
 }

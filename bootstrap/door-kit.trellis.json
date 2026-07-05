@@ -27,6 +27,9 @@
     },
     {
       "type": "seam-check-lib"
+    },
+    {
+      "type": "org-quality-standard"
     }
   ]
 }
