@@ -247,7 +247,7 @@
         "type": "dns-as-code",
         "kind": "external-platform",
         "spec": {
-          "external": "https://github.com/bounded-systems/deploy#readme"
+          "external": "https://github.com/bounded-systems/deploy/blob/main/dns-schema.mjs"
         }
       }
     ],

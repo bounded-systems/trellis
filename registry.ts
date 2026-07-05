@@ -270,10 +270,13 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
   {
     type: "dns-as-code",
     kind: "external-platform",
-    spec: { external: "https://github.com/bounded-systems/deploy#readme" },
+    spec: {
+      external:
+        "https://github.com/bounded-systems/deploy/blob/main/dns-schema.mjs",
+    },
     verified: false,
     summary:
-      "bounded.tools DNS-as-code — reviewer-gated, OIDC-brokered zone records.",
+      "bounded.tools DNS-as-code — reviewer-gated Cloudflare zone records, now schema-defined (deploy/dns-schema.mjs validates every state/*.dns.json).",
   },
   {
     type: "oci-dev-registry",
