@@ -7,7 +7,7 @@
         "type": "org-defaults",
         "kind": "repo-config",
         "spec": {
-          "external": "https://github.com/bounded-systems/.github#readme"
+          "external": "https://github.com/bounded-systems/.github/blob/main/org-defaults.mjs"
         }
       }
     ],

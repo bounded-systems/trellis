@@ -255,7 +255,10 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
   {
     type: "org-defaults",
     kind: "repo-config",
-    spec: { external: "https://github.com/bounded-systems/.github#readme" },
+    spec: {
+      external:
+        "https://github.com/bounded-systems/.github/blob/main/org-defaults.mjs",
+    },
     verified: false,
     summary:
       "Org-level defaults + the public profile README every bounded-systems repo inherits.",
