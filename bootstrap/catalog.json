@@ -232,7 +232,15 @@
   {
     "node": "dev-contracts",
     "visibility": "public",
-    "provides": [],
+    "provides": [
+      {
+        "type": "dev-contract-schema",
+        "kind": "shared-schema",
+        "spec": {
+          "jsrSchema": "@bounded-systems/dev-contracts"
+        }
+      }
+    ],
     "consumes": []
   },
   {

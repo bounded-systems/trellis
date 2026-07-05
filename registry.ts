@@ -196,6 +196,14 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "cf-oidc-token-broker mints GitHub App installation tokens over Actions OIDC (the App key lives only in the broker) — consumed by gh-project-room's front-desk-sync.",
   },
+  {
+    type: "dev-contract-schema",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/dev-contracts" },
+    verified: false,
+    summary:
+      "The DevContracts Zod schemas (dev_contract/lock/token) for declarative project-config contracts — consolidated into @bounded-systems/dev-contracts.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */
