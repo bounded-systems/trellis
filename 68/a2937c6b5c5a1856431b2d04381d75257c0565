@@ -1,0 +1,21 @@
+bootstrap/door-kit.trellis.json
+  s_70508ca017cb29::t_84010f38f97f5f 30-32
+bootstrap/ocap-provenance.trellis.json
+  s_70508ca017cb29::t_e2f12bed987593 7-13,15-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "68a2937c6b5c5a1856431b2d04381d75257c0565",
+  "prompts": {},
+  "sessions": {
+    "s_70508ca017cb29": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d283f13f-34c8-429b-8cb1-b020e645c0e4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Robert DeLanghe <1240090+bdelanghe@users.noreply.github.com>"
+    }
+  }
+}
