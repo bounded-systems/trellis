@@ -204,6 +204,14 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "The DevContracts Zod schemas (dev_contract/lock/token) for declarative project-config contracts — consolidated into @bounded-systems/dev-contracts.",
   },
+  {
+    type: "verbspec-lib",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/verbspec" },
+    verified: false,
+    summary:
+      "verbspec (defineVerb/dispatch + one Zod I/O per verb, projected to CLI/MCP/OpenAPI) — the framework the wire agreements, installer, string-audit et al. import.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */

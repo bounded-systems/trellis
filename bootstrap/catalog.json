@@ -469,7 +469,14 @@
     "node": "installer",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "seam-check-lib"
+      },
+      {
+        "type": "verbspec-lib"
+      }
+    ]
   },
   {
     "node": "lima-devshell",
@@ -585,7 +592,11 @@
     "node": "schema-gen",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "seam-check-lib"
+      }
+    ]
   },
   {
     "node": "scout",
@@ -681,7 +692,14 @@
     "node": "string-audit",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "verbspec-lib"
+      },
+      {
+        "type": "brand-tokens"
+      }
+    ]
   },
   {
     "node": "surface-sync",
@@ -736,10 +754,10 @@
     "visibility": "public",
     "provides": [
       {
-        "type": "jsr-library",
+        "type": "verbspec-lib",
         "kind": "shared-schema",
         "spec": {
-          "jsrSchema": "@bounded-systems/*"
+          "jsrSchema": "@bounded-systems/verbspec"
         }
       }
     ],
