@@ -361,6 +361,17 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     verified: false,
     summary: "Schema transformation/bridging between formats.",
   },
+  {
+    type: "org-quality-standard",
+    kind: "repo-config",
+    spec: {
+      external:
+        "https://github.com/bounded-systems/.github/blob/main/.github/workflows/repo-standard.yml",
+    },
+    verified: false,
+    summary:
+      "The reusable repo-standard workflow .github provides (security + the prose-proxy quality gates + test) — every repo that calls it runs the same org quality bar. CI-enforced via GitHub Actions; declared here (no trellis flake check yet).",
+  },
 ] as const;
 
 /** Look up a contract type by name. */
