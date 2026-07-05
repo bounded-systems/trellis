@@ -252,6 +252,109 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
     summary:
       "mint — deterministic, signed releases from .release/ intent files (bumps deno.json/jsr.json/package.json). Adopted by dev-contracts.",
   },
+  {
+    type: "org-defaults",
+    kind: "repo-config",
+    spec: { external: "https://github.com/bounded-systems/.github#readme" },
+    verified: false,
+    summary:
+      "Org-level defaults + the public profile README every bounded-systems repo inherits.",
+  },
+  {
+    type: "token-audit-toolkit",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/claude-token-tools" },
+    verified: false,
+    summary: "Claude Code token-usage auditor + home-manager module.",
+  },
+  {
+    type: "dns-as-code",
+    kind: "external-platform",
+    spec: { external: "https://github.com/bounded-systems/deploy#readme" },
+    verified: false,
+    summary:
+      "bounded.tools DNS-as-code — reviewer-gated, OIDC-brokered zone records.",
+  },
+  {
+    type: "oci-dev-registry",
+    kind: "external-platform",
+    spec: {
+      external: "https://github.com/bounded-systems/dev-registry#readme",
+    },
+    verified: false,
+    summary:
+      "Local-first OCI registry + devcontainer build system with build traceability.",
+  },
+  {
+    type: "peercred-helper",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/door-peercred" },
+    verified: false,
+    summary:
+      "SO_PEERCRED helper for launcherd (Rust) — peer-identity extraction on unix sockets.",
+  },
+  {
+    type: "nix-facilities",
+    kind: "repo-config",
+    spec: { external: "https://github.com/bounded-systems/facilities#readme" },
+    verified: false,
+    summary: "Shared Nix flakes, devshells, and build substrate for the org.",
+  },
+  {
+    type: "linked-data-structure",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/fold-engine" },
+    verified: false,
+    summary:
+      "JSON-LD / schema.org linked-data structure over an Obsidian vault.",
+  },
+  {
+    type: "roundtrip-validation",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/frond" },
+    verified: false,
+    summary:
+      "Parse-to-AST + regenerate-source fidelity validation (Deno + SWC).",
+  },
+  {
+    type: "ast-git-spec",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/git-ast" },
+    verified: false,
+    summary: "AST-based git clean/smudge diff+merge spec (design stage).",
+  },
+  {
+    type: "wasm-hook-builder",
+    kind: "repo-config",
+    spec: { external: "https://github.com/bounded-systems/hooksmith#readme" },
+    verified: false,
+    summary: "Build Rust binaries into Lefthook hooks as WASM components.",
+  },
+  {
+    type: "lima-devshell-config",
+    kind: "repo-config",
+    spec: {
+      external: "https://github.com/bounded-systems/lima-devshell#readme",
+    },
+    verified: false,
+    summary:
+      "Bootstrap devshell for Lima VMs + macOS home-manager (Nix flake).",
+  },
+  {
+    type: "vault-content",
+    kind: "repo-config",
+    spec: { external: "https://github.com/bounded-systems/lobby#readme" },
+    verified: false,
+    summary:
+      "Offline Obsidian vault whose drafts become robertdelanghe.dev posts.",
+  },
+  {
+    type: "schema-transform",
+    kind: "shared-schema",
+    spec: { jsrSchema: "@bounded-systems/schema-bridge" },
+    verified: false,
+    summary: "Schema transformation/bridging between formats.",
+  },
 ] as const;
 
 /** Look up a contract type by name. */
