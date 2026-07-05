@@ -9,6 +9,13 @@
         "spec": {
           "external": "https://github.com/bounded-systems/.github/blob/main/org-defaults.mjs"
         }
+      },
+      {
+        "type": "org-quality-standard",
+        "kind": "repo-config",
+        "spec": {
+          "external": "https://github.com/bounded-systems/.github/blob/main/.github/workflows/repo-standard.yml"
+        }
       }
     ],
     "consumes": []
@@ -25,7 +32,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "anchored-chain-sqlite",
@@ -161,7 +172,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "cf-oidc-token-broker",
@@ -175,7 +190,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "claude-box",
@@ -223,7 +242,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "content-catalog",
@@ -251,7 +274,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "dev-contracts",
@@ -315,7 +342,11 @@
     "node": "door-kit",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "door-net",
@@ -509,7 +540,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "github-budget",
@@ -543,7 +578,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "host",
@@ -569,6 +608,9 @@
       },
       {
         "type": "verbspec-lib"
+      },
+      {
+        "type": "org-quality-standard"
       }
     ]
   },
@@ -612,7 +654,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "machine-schema",
@@ -640,13 +686,21 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "ocap-provenance",
     "visibility": "public",
     "provides": [],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "policy",
@@ -721,6 +775,9 @@
     "consumes": [
       {
         "type": "seam-check-lib"
+      },
+      {
+        "type": "org-quality-standard"
       }
     ]
   },
@@ -750,7 +807,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "site",
@@ -887,7 +948,11 @@
         }
       }
     ],
-    "consumes": []
+    "consumes": [
+      {
+        "type": "org-quality-standard"
+      }
+    ]
   },
   {
     "node": "verify",
