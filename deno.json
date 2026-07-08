@@ -13,15 +13,18 @@
     "zod": "npm:zod@^4.4.3",
     "verbspec": "jsr:@bounded-systems/verbspec@^0.3.1",
     "@bounded-systems/trellis-kit": "jsr:@bounded-systems/trellis-kit@^0.1.0",
-    "@std/assert": "jsr:@std/assert@^1"
+    "@std/assert": "jsr:@std/assert@^1",
+    "@std/cli": "jsr:@std/cli@^1",
+    "@std/fs": "jsr:@std/fs@^1"
   },
   "tasks": {
-    "check": "deno check schema.ts registry.ts assemble.ts verbs.ts status.ts check/parse.ts check/keeper-wire.ts check/scout-wire.ts check/concierge-wire.ts check/lattice.ts",
+    "check": "deno check schema.ts registry.ts assemble.ts verbs.ts status.ts check/parse.ts check/keeper-wire.ts check/scout-wire.ts check/concierge-wire.ts check/lattice.ts check/overlap.ts",
     "test": "deno test --allow-read",
     "status": "deno run --allow-read status.ts",
     "fmt": "deno fmt",
     "lint": "deno lint",
-    "verbs": "deno run --allow-read verbs.ts"
+    "verbs": "deno run --allow-read verbs.ts",
+    "overlap": "deno run -A check/overlap.ts"
   },
   "fmt": {
     "include": ["*.ts", "specs/*.ts", "check/*.ts"],

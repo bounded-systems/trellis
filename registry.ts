@@ -78,6 +78,14 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
       "The guest-room room+door wire protocol vendored into door-kit and each daemon.",
   },
   {
+    type: "trellis-kit-lattice",
+    kind: "vendored-pin",
+    spec: { jsrSchema: "@bounded-systems/trellis-kit" },
+    verified: true,
+    summary:
+      "The kit's findCycles/findMultiContractPairs vendored into trellis's check/lattice.ts — it runs `--no-remote` in a sealed derivation and cannot import the kit, so it mirrors it. Must stay equal to trellis-kit HEAD; verified by check/lattice_test.ts (drift fails CI). This is the declared cross-repo clone the overlap check (check/overlap.ts) sanctions in place of an allowlist.",
+  },
+  {
     type: "ocap-provenance-predicate",
     kind: "shared-schema",
     spec: { jsrSchema: "@bounded-systems/ocap-provenance" },

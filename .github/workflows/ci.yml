@@ -26,6 +26,38 @@ jobs:
       - run: deno fmt --check
       - run: deno task test
 
+  # Cross-repo structural overlap as a lattice invariant (check/overlap.ts): a
+  # code clone across two repos is sanctioned iff the lattice joins them by a
+  # shared-code contract (vendored-pin / shared-schema / import-boundary) —
+  # otherwise it's undeclared coupling and fails. NOT hermetic (jscpd + ast-grep
+  # are npm tools reading many checkouts), so it's a plain CI job, not a flake
+  # derivation. Checks out the catalog nodes it scans into _repos/; keep this
+  # list to repos that are declared in bootstrap/catalog.json. contents: read.
+  overlap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      # Scan THIS checkout's trellis (so a PR that edits check/lattice.ts self-tests),
+      # not main — copy the committed tree into _repos/trellis.
+      - run: mkdir -p _repos/trellis && git archive HEAD | tar -x -C _repos/trellis
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with: { repository: bounded-systems/trellis-kit, path: _repos/trellis-kit, persist-credentials: false }
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with: { repository: bounded-systems/guest-room, path: _repos/guest-room, persist-credentials: false }
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with: { repository: bounded-systems/conformance, path: _repos/conformance, persist-credentials: false }
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with: { repository: bounded-systems/verbspec, path: _repos/verbspec, persist-credentials: false }
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with: { repository: bounded-systems/drift-gate, path: _repos/drift-gate, persist-credentials: false }
+      - uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2.0.4
+        with:
+          deno-version: v2.x
+      - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: 20
+      - run: deno run -A check/overlap.ts --repos-dir=_repos
+
   # The aggregating contract check — the "large flake derivation". Report-only
   # for now: it is EXPECTED to fail until the keeper-wire drift it surfaces is
   # fixed upstream (door-kit's import-and-push sends `ledgerRef`, not the

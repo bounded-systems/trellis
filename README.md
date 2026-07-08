@@ -156,15 +156,44 @@ So contracts come in two shapes: **relational** (wire, vendored-pin —
 provider↔consumer edges) and **unary** (import-boundary — a node upholding its
 own invariant). trellis models both.
 
+## The undeclared graph: `check/overlap.ts`
+
+Every check above proves something about a *declared* edge. `check/overlap.ts`
+checks the **undeclared** graph — the coupling nobody wrote down. It runs
+[`jscpd`](https://github.com/kucherenko/jscpd) (Type-1/2/3 clone discovery) +
+[`ast-grep`](https://ast-grep.github.io) across the catalog repos checked out
+side by side, and treats a cross-repo code clone as a **lattice invariant**: a
+clone between repos A and B is sanctioned **iff the lattice already joins them by
+a shared-code contract** (`vendored-pin` / `shared-schema` / `import-boundary`).
+An unsanctioned clone is undeclared coupling — fix it by either making it an
+import or *declaring* it (a `vendored-pin`, guarded by an equivalence check).
+**There is no allowlist: the registry + catalog are the allowlist.**
+
+This is why `trellis-kit-lattice` exists. `check/lattice.ts` vendors the kit's
+`findCycles`/`findMultiContractPairs` (it runs `--no-remote`, so it can't import
+them); that copy is the one real cross-repo clone in the library set. Rather than
+suppress it, it's *declared* — trellis-kit **provides** `trellis-kit-lattice`
+(`vendored-pin`), trellis **consumes** it — and kept honest by
+`check/lattice_test.ts`. So the overlap check stays green *because the coupling is
+modeled*, exactly like `door-kit-mirror`.
+
+Unlike the flake checks, this one is **not hermetic** (jscpd/ast-grep are npm
+tools reading many checkouts), so it runs as an ordinary CI job (`overlap` in
+`ci.yml`), not a sealed derivation. Its pure core — which pairs the lattice
+sanctions — is `sanctionedPairs`, unit-tested in `check/overlap_test.ts`. (This
+is the conformance overlap axis, re-homed here where the cross-repo relationship
+model lives.)
+
 ## Status
 
-Four types are `verified` (live checks) across three kinds:
+Five types are `verified` (live checks) across three kinds:
 
 | type | kind | result |
 |---|---|---|
 | `keeper-wire` | wire | 🔴 red — real drift (`ledgerRef`/`kind` params) |
 | `scout-wire` | wire | 🟢 green — daemon + client conform |
 | `door-kit-mirror` | vendored-pin | 🔴 red — stale vendored copy |
+| `trellis-kit-lattice` | vendored-pin | 🟢 green — mirror equals the kit (`lattice_test.ts`) |
 | `sanctioned-reader-seam` | import-boundary | 🟢 green — `fs` upholds its claim |
 
 Both wire checks share the offline parsers in `check/parse.ts`. Every other type
