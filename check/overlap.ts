@@ -34,6 +34,8 @@
  *   deno run -A check/overlap.ts --repos-dir=_repos
  *   deno run -A check/overlap.ts --only=jscpd    # or --only=astgrep
  */
+import { parseArgs } from "@std/cli/parse-args";
+import { exists } from "@std/fs/exists";
 
 /** Contract kinds that legitimately imply shared/duplicated SOURCE across repos. */
 const SHARED_CODE_KINDS = new Set([
@@ -101,26 +103,6 @@ export function readNodes(bootstrapDir: string): Node[] {
 }
 
 // ---- helpers -------------------------------------------------------------
-function parseArgs(argv: string[]): Record<string, string | boolean> {
-  const out: Record<string, string | boolean> = {};
-  for (const a of argv) {
-    if (!a.startsWith("--")) continue;
-    const eq = a.indexOf("=");
-    if (eq === -1) out[a.slice(2)] = true;
-    else out[a.slice(2, eq)] = a.slice(eq + 1);
-  }
-  return out;
-}
-
-function exists(p: string): boolean {
-  try {
-    Deno.statSync(p);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 const repoOf = (p: string) => p.replaceAll("\\", "/").split("/")[0];
 
 interface CheckResult {
@@ -276,10 +258,11 @@ if (import.meta.main) {
   const budget = DEFAULT_BUDGET_PCT;
 
   // Scan the catalog nodes that are actually checked out under reposDir.
-  const repos = nodes
-    .map((n) => n.node)
-    .filter((n) => exists(`${reposDir}/${n}`))
-    .sort();
+  const repos: string[] = [];
+  for (const n of nodes.map((x) => x.node)) {
+    if (await exists(`${reposDir}/${n}`)) repos.push(n);
+  }
+  repos.sort();
 
   const results: CheckResult[] = [];
   let jscpd: (CheckResult & { pct: number; crossRepo: unknown[] }) | undefined;

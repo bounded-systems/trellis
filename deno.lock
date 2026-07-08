@@ -4,6 +4,8 @@
     "jsr:@bounded-systems/trellis-kit@0.1": "0.1.0",
     "jsr:@bounded-systems/verbspec@~0.3.1": "0.3.1",
     "jsr:@std/assert@1": "1.0.13",
+    "jsr:@std/cli@1": "1.0.32",
+    "jsr:@std/fs@1": "1.0.24",
     "jsr:@std/internal@^1.0.6": "1.0.6",
     "npm:zod@^4.4.3": "4.4.3"
   },
@@ -26,6 +28,12 @@
         "jsr:@std/internal"
       ]
     },
+    "@std/cli@1.0.32": {
+      "integrity": "188b3a100d6202d64e3f5bd3d799c7fa4f6d77f92cc65eb7f641c1fa0aa92a66"
+    },
+    "@std/fs@1.0.24": {
+      "integrity": "f3061b45b81673a2bece689da041df32d174be064c89eb6397fb5718d3fb7877"
+    },
     "@std/internal@1.0.6": {
       "integrity": "9533b128f230f73bd209408bb07a4b12f8d4255ab2a4d22a1fd6d87304aca9a4"
     }
@@ -40,6 +48,8 @@
       "jsr:@bounded-systems/trellis-kit@0.1",
       "jsr:@bounded-systems/verbspec@~0.3.1",
       "jsr:@std/assert@1",
+      "jsr:@std/cli@1",
+      "jsr:@std/fs@1",
       "npm:zod@^4.4.3"
     ]
   }
