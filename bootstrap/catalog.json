@@ -929,6 +929,9 @@
       },
       {
         "type": "concierge-wire"
+      },
+      {
+        "type": "trellis-kit-lattice"
       }
     ]
   },
@@ -969,5 +972,21 @@
         "type": "signed-static-api"
       }
     ]
+  },
+  {
+    "node": "trellis-kit",
+    "visibility": "public",
+    "role": "contract-schema-sdk",
+    "domain": "org-contracts",
+    "provides": [
+      {
+        "type": "trellis-kit-lattice",
+        "kind": "vendored-pin",
+        "spec": {
+          "jsrSchema": "@bounded-systems/trellis-kit"
+        }
+      }
+    ],
+    "consumes": []
   }
 ]

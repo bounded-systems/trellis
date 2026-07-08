@@ -1,1 +1,8 @@
 .fixtures/
+
+# The overlap check (check/overlap.ts) checks the scanned repos out here in CI
+# (see .github/workflows/ci.yml `overlap`); never commit the vendored source.
+_repos/
+
+# npx (jscpd / ast-grep) may vendor here when the overlap check runs locally.
+node_modules/

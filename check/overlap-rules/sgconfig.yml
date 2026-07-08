@@ -1,0 +1,6 @@
+# ast-grep project config for the overlap check's enforcement half (check/overlap.ts).
+# Rules alongside this file are seeded from real consolidations — each bans
+# re-implementing a primitive that now lives in one place. Run via
+# `deno run -A check/overlap.ts` (or: ast-grep scan -c this-file <repos>).
+ruleDirs:
+  - .
