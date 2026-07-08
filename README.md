@@ -158,24 +158,25 @@ own invariant). trellis models both.
 
 ## The undeclared graph: `check/overlap.ts`
 
-Every check above proves something about a *declared* edge. `check/overlap.ts`
+Every check above proves something about a _declared_ edge. `check/overlap.ts`
 checks the **undeclared** graph — the coupling nobody wrote down. It runs
 [`jscpd`](https://github.com/kucherenko/jscpd) (Type-1/2/3 clone discovery) +
 [`ast-grep`](https://ast-grep.github.io) across the catalog repos checked out
 side by side, and treats a cross-repo code clone as a **lattice invariant**: a
-clone between repos A and B is sanctioned **iff the lattice already joins them by
-a shared-code contract** (`vendored-pin` / `shared-schema` / `import-boundary`).
-An unsanctioned clone is undeclared coupling — fix it by either making it an
-import or *declaring* it (a `vendored-pin`, guarded by an equivalence check).
-**There is no allowlist: the registry + catalog are the allowlist.**
+clone between repos A and B is sanctioned **iff the lattice already joins them
+by a shared-code contract** (`vendored-pin` / `shared-schema` /
+`import-boundary`). An unsanctioned clone is undeclared coupling — fix it by
+either making it an import or _declaring_ it (a `vendored-pin`, guarded by an
+equivalence check). **There is no allowlist: the registry + catalog are the
+allowlist.**
 
 This is why `trellis-kit-lattice` exists. `check/lattice.ts` vendors the kit's
 `findCycles`/`findMultiContractPairs` (it runs `--no-remote`, so it can't import
-them); that copy is the one real cross-repo clone in the library set. Rather than
-suppress it, it's *declared* — trellis-kit **provides** `trellis-kit-lattice`
-(`vendored-pin`), trellis **consumes** it — and kept honest by
-`check/lattice_test.ts`. So the overlap check stays green *because the coupling is
-modeled*, exactly like `door-kit-mirror`.
+them); that copy is the one real cross-repo clone in the library set. Rather
+than suppress it, it's _declared_ — trellis-kit **provides**
+`trellis-kit-lattice` (`vendored-pin`), trellis **consumes** it — and kept
+honest by `check/lattice_test.ts`. So the overlap check stays green _because the
+coupling is modeled_, exactly like `door-kit-mirror`.
 
 Unlike the flake checks, this one is **not hermetic** (jscpd/ast-grep are npm
 tools reading many checkouts), so it runs as an ordinary CI job (`overlap` in
@@ -188,17 +189,36 @@ model lives.)
 
 Five types are `verified` (live checks) across three kinds:
 
-| type | kind | result |
-|---|---|---|
-| `keeper-wire` | wire | 🔴 red — real drift (`ledgerRef`/`kind` params) |
-| `scout-wire` | wire | 🟢 green — daemon + client conform |
-| `door-kit-mirror` | vendored-pin | 🔴 red — stale vendored copy |
-| `trellis-kit-lattice` | vendored-pin | 🟢 green — mirror equals the kit (`lattice_test.ts`) |
-| `sanctioned-reader-seam` | import-boundary | 🟢 green — `fs` upholds its claim |
+| type                     | kind            | result                                               |
+| ------------------------ | --------------- | ---------------------------------------------------- |
+| `keeper-wire`            | wire            | 🔴 red — real drift (`ledgerRef`/`kind` params)      |
+| `scout-wire`             | wire            | 🟢 green — daemon + client conform                   |
+| `door-kit-mirror`        | vendored-pin    | 🔴 red — stale vendored copy                         |
+| `trellis-kit-lattice`    | vendored-pin    | 🟢 green — mirror equals the kit (`lattice_test.ts`) |
+| `sanctioned-reader-seam` | import-boundary | 🟢 green — `fs` upholds its claim                    |
 
 Both wire checks share the offline parsers in `check/parse.ts`. Every other type
 is `declared` — mapped and honest that no check enforces it yet. Every public
 repo is a node; edges grow one leaf check at a time (one flake input + one
 `checks.*` entry).
+
+### Which repos are red or green
+
+`status.json` also rolls each result up **per repo** (`report.repos[]` +
+`summary.reposGreen`/`reposRed`), so the projection answers "which repos are
+red?" not just "which contracts are red?". A repo rolls up from the edges
+touching it — as **provider or consumer** — fail-closed:
+
+- **🔴 red** — at least one contract it provides or depends on is failing
+  (`failing[]` names which). A consumer of a drifting wire is red too: the
+  breakage reaches it.
+- **🟢 green** — at least one verified contract touches it and none fail.
+- **declared** — only unverified edges (or none): on the map, nothing proven
+  yet.
+
+So a broken `keeper-wire` turns keeperd **and** its consumers (`door-kit`,
+`claude-box`, …) red, while `trellis-kit` (its lattice mirror verified) and
+`door-scout` (scout-wire green) show green — the Trust Center / bounded.tools
+can render a repo-level board straight from the signed projection.
 
 Source-available under **PolyForm Noncommercial 1.0.0**.

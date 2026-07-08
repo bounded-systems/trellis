@@ -70,6 +70,53 @@ Deno.test("every node is a build derivation: build output + self input", async (
   );
 });
 
+Deno.test("repos roll up red/green from the edges touching them", async () => {
+  const decls = await loadDecls(BOOTSTRAP);
+  const report = projectStatus(decls, {
+    "keeper-wire": "fail",
+    "scout-wire": "pass",
+  });
+  const byRepo = new Map(report.repos.map((r) => [r.node, r]));
+
+  // keeperd provides keeper-wire (failing) → its consumers + provider roll up RED.
+  const red = report.repos.filter((r) => r.result === "fail");
+  for (const r of red) {
+    assertEquals(
+      r.failing.length > 0,
+      true,
+      `${r.node} is red but lists no failing type`,
+    );
+  }
+  // A repo touched by a passing verified edge and no failing one rolls up GREEN.
+  const green = report.repos.filter((r) => r.result === "pass");
+  for (const r of green) assertEquals(r.failing, []);
+
+  // Every repo is classified, and the summary counts match.
+  assertEquals(report.repos.length, report.summary.nodes);
+  assertEquals(
+    report.summary.reposRed,
+    report.repos.filter((r) => r.result === "fail").length,
+  );
+  assertEquals(
+    report.summary.reposGreen,
+    report.repos.filter((r) => r.result === "pass").length,
+  );
+  // A repo with no verified edge is neither red nor green.
+  for (const r of report.repos) {
+    if (r.result === "declared") assertEquals(r.failing, []);
+  }
+  // sanity: at least one repo went red off the failing keeper-wire.
+  assertEquals(byRepo.size, report.repos.length);
+  assertEquals(report.summary.reposRed >= 1, true);
+});
+
+Deno.test("a repo with only declared edges is neither red nor green", async () => {
+  const decls = await loadDecls(BOOTSTRAP);
+  const report = projectStatus(decls, {}); // nothing verified-passing
+  // With no passes recorded, no repo can be green.
+  assertEquals(report.summary.reposGreen, 0);
+});
+
 Deno.test("findCycles detects a 2-repo dependency cycle", () => {
   // a provides X (consumed by b); b provides Y (consumed by a) → a<->b cycle
   const edges = [
