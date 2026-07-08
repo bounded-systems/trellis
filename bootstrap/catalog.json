@@ -567,6 +567,12 @@
     "consumes": []
   },
   {
+    "node": "drift-gate",
+    "visibility": "public",
+    "provides": [],
+    "consumes": []
+  },
+  {
     "node": "hooksmith",
     "visibility": "public",
     "provides": [
