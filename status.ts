@@ -53,6 +53,21 @@ export interface StatusType {
   readonly summary: string;
 }
 
+/**
+ * A repo's rolled-up status, aggregated from the contract edges touching it
+ * (as provider or consumer). Fail-closed, like `resultFor`:
+ *   - `fail` (RED)   — at least one touching edge's check is failing.
+ *   - `pass` (GREEN) — at least one touching edge passes and none fail.
+ *   - `declared`     — only declared edges (no live check) or no edges at all:
+ *                      on the map but nothing is verified about it yet.
+ */
+export interface RepoStatus {
+  readonly node: string;
+  readonly result: Result;
+  /** Contract types failing on this repo (populated when `result` is `fail`). */
+  readonly failing: readonly string[];
+}
+
 export interface StatusReport {
   readonly summary: {
     readonly nodes: number;
@@ -61,6 +76,10 @@ export interface StatusReport {
     readonly verified: number;
     readonly passing: number;
     readonly failing: number;
+    /** Repos rolled up GREEN (≥1 passing contract, none failing). */
+    readonly reposGreen: number;
+    /** Repos rolled up RED (≥1 failing contract). */
+    readonly reposRed: number;
     /** Repos wired to at least one other repo by a contract. */
     readonly mapped: number;
     /** Repos with only their build + self — on the map, not yet wired to others. */
@@ -74,6 +93,8 @@ export interface StatusReport {
   readonly edges: readonly StatusEdge[];
   /** EVERY repo on the map, not just the ones with edges. */
   readonly nodes: readonly StatusNode[];
+  /** EVERY repo's rolled-up red/green/declared status (parallel to `nodes`). */
+  readonly repos: readonly RepoStatus[];
   /** Dependency cycles (consumer → provider). Empty when the lattice is a DAG. */
   readonly cycles: readonly (readonly string[])[];
   /** Node-pairs holding more than one agreement — must be empty. */
@@ -136,6 +157,22 @@ export function projectStatus(
   // EVERY repo as a build derivation (the kit's canonical model).
   const nodes: StatusNode[] = tree.nodes.map(toDerivation);
 
+  // Roll each repo up from the edges touching it (provider or consumer).
+  const repos: RepoStatus[] = tree.nodes.map((n) => {
+    const touching = edges.filter((e) => e.from === n.node || e.to === n.node);
+    const failing = [
+      ...new Set(
+        touching.filter((e) => e.result === "fail").map((e) => e.type),
+      ),
+    ].sort();
+    const result: Result = failing.length > 0
+      ? "fail"
+      : touching.some((e) => e.result === "pass")
+      ? "pass"
+      : "declared";
+    return { node: n.node, result, failing };
+  });
+
   const cycles = findCycles(tree.edges);
   const multiContractPairs = findMultiContractPairs(tree.edges);
   const verified = types.filter((t) => t.verified);
@@ -147,6 +184,8 @@ export function projectStatus(
       verified: verified.length,
       passing: verified.filter((t) => t.result === "pass").length,
       failing: verified.filter((t) => t.result === "fail").length,
+      reposGreen: repos.filter((r) => r.result === "pass").length,
+      reposRed: repos.filter((r) => r.result === "fail").length,
       mapped: nodes.filter((n) => n.mapped).length,
       unmapped: nodes.filter((n) => !n.mapped).length,
       acyclic: cycles.length === 0,
@@ -155,6 +194,7 @@ export function projectStatus(
     types,
     edges,
     nodes,
+    repos,
     cycles,
     multiContractPairs,
     unmatched: unmatchedConsumes(decls),
