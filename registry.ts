@@ -102,6 +102,14 @@ export const CONTRACT_TYPES: readonly ContractType[] = [
       "A 'one sanctioned reader' package upholding its own seam claim (allowed imports + no ambient authority) — a UNARY contract. Wired for fs; env/host/proc/repo-root next.",
   },
   {
+    type: "descriptor-honesty",
+    kind: "provenance",
+    spec: { jsrSchema: "@bounded-systems/drift-gate" },
+    verified: true,
+    summary:
+      "A repo upholding its OWN descriptor claim — every trellis.json proof claim's provenBy file exists and its git blob hash matches the pin in the generated README. A UNARY contract, verified by @bounded-systems/drift-gate's pure descriptor check (offline; the surface check needs npm and stays in per-repo CI). Wired for guest-room; other descriptor repos next.",
+  },
+  {
     type: "jsr-library",
     kind: "shared-schema",
     spec: { jsrSchema: "@bounded-systems/*" },

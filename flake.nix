@@ -52,11 +52,24 @@
       url = "github:bounded-systems/fs";
       flake = false;
     };
+    # drift-gate is pinned as source (not consumed as a flake); its pure
+    # src/descriptor.ts is imported directly (offline) — trellis WRAPS it, the
+    # same way it wraps seam-check.
+    drift-gate = {
+      url = "github:bounded-systems/drift-gate";
+      flake = false;
+    };
+    # a descriptor repo to check the honesty claim against.
+    guest-room = {
+      url = "github:bounded-systems/guest-room";
+      flake = false;
+    };
   };
 
   outputs =
     { self, nixpkgs, door-keeper, door-kit, door-scout, door-concierge
-    , keeper-wire, scout-wire, concierge-wire, seam-check, fs }:
+    , keeper-wire, scout-wire, concierge-wire, seam-check, fs, drift-gate
+    , guest-room }:
     let
       # Linux for real CI runners AND darwin so a maintainer can `nix flake
       # check` locally — the previous per-repo *-mirror checks were
@@ -159,6 +172,27 @@
               fs
             touch $out
           '';
+
+        # descriptor-honesty (provenance kind): a UNARY contract — a repo
+        # upholding its OWN descriptor claim (every trellis.json proof claim's
+        # provenBy file exists and its git blob hash matches the pin in the
+        # generated README). WRAPS @bounded-systems/drift-gate (pinned; its pure
+        # src/descriptor.ts imported directly, offline — the surface check needs
+        # npm/ts-morph and stays in per-repo CI). Wired for guest-room — expected
+        # to PASS; fan out to more descriptor repos by pinning each and adding a
+        # deno-run line below.
+        descriptor-honesty = pkgs.runCommand "trellis-descriptor-honesty" {
+          nativeBuildInputs = [ pkgs.deno ];
+          DENO_DIR = "/tmp/deno";
+        } ''
+          export HOME=$TMPDIR
+          cd ${self}
+          deno run --no-remote --allow-read check/descriptor-drift.ts \
+            ${drift-gate} \
+            ${guest-room} \
+            guest-room
+          touch $out
+        '';
 
         # lattice: the kit's structural invariants over trellis's OWN map — one
         # agreement per node pair, and a build DAG (no cycles). A META check (no
